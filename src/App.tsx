@@ -33,7 +33,6 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -199,9 +198,12 @@ const CourseCard = ({
   readonly index: number;
 }) => {
   const Icon = ICON_MAP[course.icon];
+  const visibleTags = course.tags.slice(0, 2);
+  const remainingTags = course.tags.length - visibleTags.length;
+
   return (
     <AnimateIn delay={index * 75}>
-      <Card className="group relative flex h-full flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <Card className="group relative flex h-full flex-col border-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
         {course.popular ? (
           <div className="absolute -top-2.5 right-4">
             <Badge className="bg-amber-500 text-white hover:bg-amber-600 shadow-sm">
@@ -209,18 +211,27 @@ const CourseCard = ({
             </Badge>
           </div>
         ) : null}
-        <CardHeader>
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
-            <Icon className="h-8 w-8" />
+        <CardHeader className="space-y-3 pb-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
+              <Icon className="h-7 w-7" />
+            </div>
+            <Badge
+              className="shrink-0"
+              variant="outline"
+            >
+              {course.semester === 'winter' ? 'Зимски' : 'Летен'}
+            </Badge>
           </div>
           <CardTitle className="text-lg">{course.title}</CardTitle>
-          <CardDescription>{course.semester} semester</CardDescription>
         </CardHeader>
-        <CardContent className="flex-1">
-          <p className="text-sm text-muted-foreground">{course.description}</p>
+        <CardContent className="flex-1 pb-4">
+          <p className="line-clamp-2 text-sm text-muted-foreground">
+            {course.description}
+          </p>
         </CardContent>
-        <CardFooter className="flex flex-wrap gap-2">
-          {course.tags.map((tag) => (
+        <CardFooter className="flex flex-wrap gap-2 pt-0">
+          {visibleTags.map((tag) => (
             <Badge
               className="text-xs"
               key={tag}
@@ -229,20 +240,55 @@ const CourseCard = ({
               {tag}
             </Badge>
           ))}
+          {remainingTags > 0 ? (
+            <Badge
+              className="text-xs"
+              variant="secondary"
+            >
+              +{remainingTags}
+            </Badge>
+          ) : null}
         </CardFooter>
       </Card>
     </AnimateIn>
   );
 };
 
+const COLLAPSED_COUNT = 8;
+
 const CoursesSection = () => {
   const [active, setActive] = useState<'Сите' | Semester>('Сите');
+  const [expanded, setExpanded] = useState(false);
+  const [query, setQuery] = useState('');
 
-  const displayed = (
+  const allCourses = (
     active === 'Сите'
       ? semesters.flatMap((s) => coursesBySemester[s])
       : [...coursesBySemester[active]]
   ).sort((a, b) => Number(Boolean(b.popular)) - Number(Boolean(a.popular)));
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const isSearching = normalizedQuery.length > 0;
+
+  const filtered = allCourses.filter((course) => {
+    if (!normalizedQuery) {
+      return true;
+    }
+
+    return [course.title, course.description, ...course.tags]
+      .join(' ')
+      .toLowerCase()
+      .includes(normalizedQuery);
+  });
+
+  const visible =
+    isSearching || expanded ? filtered : filtered.slice(0, COLLAPSED_COUNT);
+  const hiddenCount = filtered.length - visible.length;
+
+  const handleFilterChange = (label: 'Сите' | Semester) => {
+    setActive(label);
+    setExpanded(false);
+  };
 
   return (
     <section
@@ -262,27 +308,50 @@ const CoursesSection = () => {
           </div>
         </AnimateIn>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-          {(['Сите', ...semesters] as const).map((label) => (
-            <Button
-              key={label}
-              onClick={() => {
-                setActive(label);
+        <div className="mx-auto mt-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              className="h-11 w-full rounded-full border border-border/70 bg-background pl-11 pr-4 text-sm shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+              onChange={(event) => {
+                setQuery(event.target.value);
               }}
-              size="sm"
-              variant={active === label ? 'default' : 'outline'}
-            >
-              {label === 'Сите'
-                ? 'Сите предмети'
-                : label === 'winter'
-                  ? 'Зимски семестар'
-                  : 'Летен семестар'}
-            </Button>
-          ))}
+              placeholder="Пребарај предмет..."
+              type="search"
+              value={query}
+            />
+          </div>
+
+          <div className="flex shrink-0 items-center justify-center gap-1.5">
+            {(['Сите', ...semesters] as const).map((label) => (
+              <Button
+                key={label}
+                onClick={() => {
+                  handleFilterChange(label);
+                }}
+                size="sm"
+                variant={active === label ? 'default' : 'outline'}
+              >
+                {label === 'Сите'
+                  ? 'Сите'
+                  : label === 'winter'
+                    ? 'Зимски'
+                    : 'Летен'}
+              </Button>
+            ))}
+          </div>
         </div>
 
+        {isSearching ? (
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            {filtered.length === 0
+              ? 'Нема резултати'
+              : `${filtered.length} ${filtered.length === 1 ? 'предмет' : 'предмети'}`}
+          </p>
+        ) : null}
+
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {displayed.map((course, index) => (
+          {visible.map((course, index) => (
             <CourseCard
               course={course}
               index={index}
@@ -290,6 +359,43 @@ const CoursesSection = () => {
             />
           ))}
         </div>
+
+        {filtered.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-dashed border-border/70 bg-muted/30 px-6 py-10 text-center">
+            <p className="text-base font-medium">Нема пронајдени предмети</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Обиди се со друго име на предмет, ознака или клучен поим.
+            </p>
+          </div>
+        ) : null}
+
+        {!isSearching && hiddenCount > 0 ? (
+          <div className="mt-8 flex justify-center">
+            <Button
+              onClick={() => {
+                setExpanded(true);
+              }}
+              size="lg"
+              variant="outline"
+            >
+              Прикажи уште {hiddenCount} предмети
+            </Button>
+          </div>
+        ) : null}
+
+        {!isSearching && expanded && filtered.length > COLLAPSED_COUNT ? (
+          <div className="mt-8 flex justify-center">
+            <Button
+              onClick={() => {
+                setExpanded(false);
+              }}
+              size="lg"
+              variant="ghost"
+            >
+              Прикажи помалку
+            </Button>
+          </div>
+        ) : null}
       </div>
     </section>
   );
