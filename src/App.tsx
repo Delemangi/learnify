@@ -238,10 +238,11 @@ const CourseCard = ({
 const CoursesSection = () => {
   const [active, setActive] = useState<'Сите' | Semester>('Сите');
 
-  const displayed =
+  const displayed = (
     active === 'Сите'
       ? semesters.flatMap((s) => coursesBySemester[s])
-      : coursesBySemester[active];
+      : [...coursesBySemester[active]]
+  ).sort((a, b) => Number(Boolean(b.popular)) - Number(Boolean(a.popular)));
 
   return (
     <section
