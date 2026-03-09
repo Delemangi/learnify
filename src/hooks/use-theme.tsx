@@ -4,15 +4,14 @@ import { type Theme, ThemeProviderContext } from './theme-context';
 
 const STORAGE_KEY = 'learnify-theme';
 
-const getSystemTheme = (): 'dark' | 'light' =>
+const getSystemTheme = (): Theme =>
   window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 const applyTheme = (theme: Theme) => {
-  const resolved = theme === 'system' ? getSystemTheme() : theme;
   const root = document.documentElement;
 
   root.classList.remove('light', 'dark');
-  root.classList.add(resolved);
+  root.classList.add(theme);
 };
 
 export const ThemeProvider = ({
@@ -22,7 +21,7 @@ export const ThemeProvider = ({
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as null | Theme;
-    return stored ?? 'system';
+    return stored ?? getSystemTheme();
   });
 
   const handleSetTheme = (next: Theme) => {
@@ -32,23 +31,6 @@ export const ThemeProvider = ({
 
   useEffect(() => {
     applyTheme(theme);
-  }, [theme]);
-
-  useEffect(() => {
-    if (theme !== 'system') {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      return undefined;
-    }
-
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = () => {
-      applyTheme('system');
-    };
-
-    mql.addEventListener('change', handler);
-    return () => {
-      mql.removeEventListener('change', handler);
-    };
   }, [theme]);
 
   const value = useMemo(() => ({ setTheme: handleSetTheme, theme }), [theme]);

@@ -214,7 +214,7 @@ const CourseCard = ({
             <Icon className="h-8 w-8" />
           </div>
           <CardTitle className="text-lg">{course.title}</CardTitle>
-          <CardDescription>{course.semester} семестар</CardDescription>
+          <CardDescription>{course.semester} semester</CardDescription>
         </CardHeader>
         <CardContent className="flex-1">
           <p className="text-sm text-muted-foreground">{course.description}</p>
@@ -271,7 +271,7 @@ const CoursesSection = () => {
               size="sm"
               variant={active === label ? 'default' : 'outline'}
             >
-              {label === 'Сите' ? 'Сите предмети' : `${label} семестар`}
+              {label === 'Сите' ? 'Сите предмети' : `${label} semester`}
             </Button>
           ))}
         </div>
