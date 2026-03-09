@@ -272,7 +272,11 @@ const CoursesSection = () => {
               size="sm"
               variant={active === label ? 'default' : 'outline'}
             >
-              {label === 'Сите' ? 'Сите предмети' : `${label} semester`}
+              {label === 'Сите'
+                ? 'Сите предмети'
+                : label === 'winter'
+                  ? 'Зимски семестар'
+                  : 'Летен семестар'}
             </Button>
           ))}
         </div>
