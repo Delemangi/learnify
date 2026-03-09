@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="mk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learnify.mk - Приватни часови за предмети од ФИНКИ. Чиста Десетка!" />
+    <title>Learnify.mk - Приватни часови за ФИНКИ</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var t = localStorage.getItem("learnify-theme") || "system";
+        var d =
+          t === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : t;
+        document.documentElement.classList.add(d);
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
