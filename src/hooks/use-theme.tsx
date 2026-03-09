@@ -1,42 +1,33 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 
-type Theme = "light" | "dark" | "system";
+import { type Theme, ThemeProviderContext } from './theme-context';
 
-interface ThemeProviderState {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-}
+const STORAGE_KEY = 'learnify-theme';
 
-const STORAGE_KEY = "learnify-theme";
+const getSystemTheme = (): 'dark' | 'light' =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-const ThemeProviderContext = createContext<ThemeProviderState>({
-  theme: "system",
-  setTheme: () => {},
-});
-
-function getSystemTheme(): "light" | "dark" {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
-function applyTheme(theme: Theme) {
-  const resolved = theme === "system" ? getSystemTheme() : theme;
+const applyTheme = (theme: Theme) => {
+  const resolved = theme === 'system' ? getSystemTheme() : theme;
   const root = document.documentElement;
 
-  root.classList.remove("light", "dark");
+  root.classList.remove('light', 'dark');
   root.classList.add(resolved);
-}
+};
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    return stored ?? "system";
+export const ThemeProvider = ({
+  children,
+}: {
+  readonly children: ReactNode;
+}) => {
+  const [theme, setTheme] = useState<Theme>(() => {
+    const stored = localStorage.getItem(STORAGE_KEY) as null | Theme;
+    return stored ?? 'system';
   });
 
-  const setTheme = (next: Theme) => {
+  const handleSetTheme = (next: Theme) => {
     localStorage.setItem(STORAGE_KEY, next);
-    setThemeState(next);
+    setTheme(next);
   };
 
   useEffect(() => {
@@ -44,26 +35,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   useEffect(() => {
-    if (theme !== "system") return;
+    if (theme !== 'system') {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      return undefined;
+    }
 
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = () => applyTheme("system");
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      applyTheme('system');
+    };
 
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
+    mql.addEventListener('change', handler);
+    return () => {
+      mql.removeEventListener('change', handler);
+    };
   }, [theme]);
 
+  const value = useMemo(() => ({ setTheme: handleSetTheme, theme }), [theme]);
+
   return (
-    <ThemeProviderContext.Provider value={{ theme, setTheme }}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );
-}
-
-export function useTheme() {
-  const context = useContext(ThemeProviderContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
-}
+};

@@ -1,34 +1,38 @@
-import { Sun, Moon, Monitor } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/use-theme";
+import { Monitor, Moon, Sun } from 'lucide-react';
 
-const cycle: Array<"system" | "light" | "dark"> = ["system", "light", "dark"];
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/hooks/use-theme-hook';
+
+const cycle: Array<'dark' | 'light' | 'system'> = ['system', 'light', 'dark'];
 
 const labels: Record<string, string> = {
-  system: "Системска тема",
-  light: "Светла тема",
-  dark: "Темна тема",
+  dark: 'Темна тема',
+  light: 'Светла тема',
+  system: 'Системска тема',
 };
 
-export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+export const ThemeToggle = () => {
+  const { setTheme, theme } = useTheme();
 
   const next = () => {
     const idx = cycle.indexOf(theme);
-    setTheme(cycle[(idx + 1) % cycle.length]);
+    const nextTheme = cycle[(idx + 1) % cycle.length];
+    if (nextTheme) {
+      setTheme(nextTheme);
+    }
   };
 
   return (
     <Button
-      variant="ghost"
-      size="icon"
-      onClick={next}
       aria-label={labels[theme]}
+      onClick={next}
+      size="icon"
       title={labels[theme]}
+      variant="ghost"
     >
-      {theme === "light" && <Sun className="h-5 w-5" />}
-      {theme === "dark" && <Moon className="h-5 w-5" />}
-      {theme === "system" && <Monitor className="h-5 w-5" />}
+      {theme === 'light' && <Sun className="h-5 w-5" />}
+      {theme === 'dark' && <Moon className="h-5 w-5" />}
+      {theme === 'system' && <Monitor className="h-5 w-5" />}
     </Button>
   );
-}
+};
