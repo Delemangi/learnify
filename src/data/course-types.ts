@@ -5,6 +5,8 @@ export type CourseData = {
   icon: IconKey;
   /** Show a highlighted popular indicator */
   popular?: boolean;
+  /** Professor teaching the course */
+  professor?: string;
   /** Which semester is this course active */
   semester: Semester;
   /** Tags / keywords shown as badges */

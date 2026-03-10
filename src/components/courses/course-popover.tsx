@@ -87,6 +87,13 @@ export const CoursePopover = ({
         {course.description}
       </p>
 
+      {course.professor ? (
+        <p className="mt-3 text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">Предавач:</span>{' '}
+          {course.professor}
+        </p>
+      ) : null}
+
       <div className="mt-4 flex flex-wrap gap-2">
         {course.tags.map((tag) => (
           <Badge

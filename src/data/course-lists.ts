@@ -5,6 +5,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Основи на програмирање во C: променливи, контролни структури, функции, низи и покажувачи.',
     icon: 'code',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['C', 'Основи'],
     title: 'Структурно програмирање',
@@ -13,6 +14,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Линеарна алгебра, матрици, детерминанти, системи линеарни равенки и векторски простори.',
     icon: 'calculator',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Математика', 'Линеарна алгебра'],
     title: 'Математика 1',
@@ -21,6 +23,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Функции, граници, континуитет, изводи и нивна примена, интегрирање.',
     icon: 'calculator',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Математика', 'Калкулус'],
     title: 'Калкулус 1',
@@ -38,6 +41,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Практична примена на алгоритамски техники: натпреварувачко програмирање, оптимизација и проблемски задачи.',
     icon: 'brain',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Алгоритми', 'Примена'],
     title: 'Примена на алгоритми и податочни структури',
@@ -46,6 +50,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Напредни концепти во Java: колекции, генерици, стримови, ламбда изрази и дизајн патерни.',
     icon: 'code',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Java', 'Напредно'],
     title: 'Напредно програмирање',
@@ -72,6 +77,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Основи на анализа на податоци, статистика, визуелизација и вовед во машинско учење со Python.',
     icon: 'bar-chart',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Data Science', 'Python'],
     title: 'Вовед во наука за податоци',
@@ -80,6 +86,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Диференцијални равенки, Лапласова трансформација, Фуриеови редови и нумерички методи.',
     icon: 'calculator',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Математика', 'Диф. равенки'],
     title: 'Математика 3',
@@ -88,6 +95,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Теорија на веројатност, случајни променливи, распределби, статистичко заклучување и тестирање хипотези.',
     icon: 'bar-chart',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Статистика', 'Веројатност'],
     title: 'Веројатност и статистика',
@@ -96,6 +104,7 @@ export const winterCourses: CourseData[] = [
     description:
       'Архитектонски стилови, дизајн патерни, SOLID принципи, микросервиси и модуларен дизајн.',
     icon: 'layers',
+    professor: 'Проф. Име Презиме',
     semester: 'winter',
     tags: ['Архитектура', 'Дизајн патерни'],
     title: 'Дизајн и архитектура на софтвер',
@@ -116,6 +125,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Дискретна математика: множества, релации, графови, комбинаторика и математичка логика.',
     icon: 'calculator',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['Математика', 'Дискретна'],
     title: 'Математика 2',
@@ -124,6 +134,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Повеќекратни интеграли, редови, Тејлорови развивања и примена во инженерство.',
     icon: 'calculator',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['Математика', 'Калкулус'],
     title: 'Калкулус 2',
@@ -132,6 +143,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Процеси, нишки, синхронизација, управување со меморија, датотечни системи.',
     icon: 'cpu',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['OS', 'Системи'],
     title: 'Оперативни системи',
@@ -140,6 +152,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Процесорска архитектура, асемблерско програмирање, мемориска хиерархија и I/O системи.',
     icon: 'cpu',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['Архитектура', 'Хардвер'],
     title: 'Архитектура и организација на компјутери',
@@ -148,6 +161,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Пребарување, машинско учење, невронски мрежи, NLP и примена на AI алгоритми.',
     icon: 'brain',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['AI', 'ML'],
     title: 'Вештачка интелигенција',
@@ -156,6 +170,7 @@ export const summerCourses: CourseData[] = [
     description:
       'E-commerce платформи, мобилни плаќања, дигитален маркетинг и бизнис модели на интернет.',
     icon: 'smartphone',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['E-commerce', 'Мобилно'],
     title: 'Електронска и мобилна трговија',
@@ -164,6 +179,7 @@ export const summerCourses: CourseData[] = [
     description:
       'UX/UI принципи, кориснички истражувања, прототипирање, евалуација на употребливост.',
     icon: 'users',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['HCI', 'UX/UI'],
     title: 'Дизајн на интеракција човек-компјутер',
@@ -172,6 +188,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Статистички методи за бизнис одлуки: регресија, корелација, временски серии и прогнозирање.',
     icon: 'bar-chart',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['Статистика', 'Бизнис'],
     title: 'Бизнис статистика',
@@ -180,6 +197,7 @@ export const summerCourses: CourseData[] = [
     description:
       'Техники на тестирање, автоматизација, CI/CD, квалитет на код и управување со дефекти.',
     icon: 'test',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['Тестирање', 'QA'],
     title: 'Софтверски квалитет и тестирање',
@@ -188,6 +206,7 @@ export const summerCourses: CourseData[] = [
     description:
       'NoSQL бази, дистрибуирани системи, репликација, партиционирање и оптимизација на перформанси.',
     icon: 'database',
+    professor: 'Проф. Име Презиме',
     semester: 'summer',
     tags: ['NoSQL', 'Бази'],
     title: 'Напредни бази на податоци',
