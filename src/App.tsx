@@ -5,7 +5,7 @@ import { CoursesSection } from '@/components/courses-section';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/hero';
 import { Navbar } from '@/components/navbar';
-import { ThemeProvider } from '@/hooks/use-theme';
+import { ThemeProvider } from '@/hooks/theme-provider';
 
 import { SkipLink } from './components/skip-link';
 

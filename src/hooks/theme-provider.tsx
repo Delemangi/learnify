@@ -2,7 +2,6 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { type Theme, ThemeProviderContext } from './theme-context';
 
-// Keep in sync with the inline <script> in index.html
 const STORAGE_KEY = 'learnify-theme';
 
 const getSystemTheme = (): Theme =>
@@ -18,11 +17,11 @@ const applyTheme = (theme: Theme) => {
   root.classList.add(theme);
 };
 
-export const ThemeProvider = ({
-  children,
-}: {
+type ThemeProviderProps = {
   readonly children: ReactNode;
-}) => {
+};
+
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return isValidTheme(stored) ? stored : getSystemTheme();
