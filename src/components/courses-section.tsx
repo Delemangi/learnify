@@ -4,10 +4,10 @@ import { coursesBySemester, semesters } from '@/data/courses';
 
 export const CoursesSection = () => (
   <section
-    className="relative overflow-hidden py-20 sm:py-28"
+    className="relative z-20 isolate py-20 sm:py-28"
     id="courses"
   >
-    <div className="pointer-events-none absolute inset-0 -z-10">
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div className="absolute left-0 top-24 h-72 w-72 -translate-x-1/3 rounded-full bg-primary/8 blur-3xl sm:h-96 sm:w-96" />
       <div className="absolute bottom-16 right-0 h-72 w-72 translate-x-1/3 rounded-full bg-accent/12 blur-3xl sm:h-96 sm:w-96" />
     </div>
