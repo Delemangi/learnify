@@ -1,4 +1,4 @@
-import { Mail } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 
 import { AnimateIn } from '@/components/animate-in';
 import { ContactCard } from '@/components/contact/contact-card';
@@ -8,7 +8,7 @@ import { InstagramIcon } from '@/components/icons/instagram-icon';
 type ContactMethod = {
   readonly delay: number;
   readonly external?: boolean;
-  readonly href: string;
+  readonly href?: string;
   readonly icon: typeof FacebookIcon | typeof InstagramIcon | typeof Mail;
   readonly label: string;
   readonly title: string;
@@ -18,18 +18,17 @@ type ContactMethod = {
 const CONTACT_METHODS: ContactMethod[] = [
   {
     delay: 0,
-    external: true,
-    href: 'https://facebook.com/learnify.mk',
-    icon: FacebookIcon,
-    label: 'Learnify.mk',
-    title: 'Facebook',
+    href: 'tel:+38972312134',
+    icon: Phone,
+    label: '+389 72 312 134',
+    title: 'Телефон (Младен)',
   },
   {
     delay: 100,
-    href: 'mailto:info@learnify.mk',
-    icon: Mail,
-    label: 'info@learnify.mk',
-    title: 'Е-пошта',
+    href: 'tel:+38977903008',
+    icon: Phone,
+    label: '+389 77 903 008',
+    title: 'Телефон (Златко)',
   },
   {
     delay: 200,
@@ -38,7 +37,21 @@ const CONTACT_METHODS: ContactMethod[] = [
     icon: InstagramIcon,
     label: '@learnify.mk',
     title: 'Instagram',
-    wrapperClassName: 'sm:col-span-2 lg:col-span-1',
+  },
+  {
+    delay: 300,
+    external: true,
+    href: 'https://facebook.com/learnify.mk',
+    icon: FacebookIcon,
+    label: 'Learnify.mk',
+    title: 'Facebook',
+  },
+  {
+    delay: 400,
+    href: 'mailto:info@learnify.mk',
+    icon: Mail,
+    label: 'info@learnify.mk',
+    title: 'Е-пошта',
   },
 ];
 
@@ -55,12 +68,12 @@ export const ContactSection = () => (
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             Контактирај нè ако си заинтересиран/а. Можеш да ни пишеш на е-пошта,
-            Facebook или Instagram.
+            Facebook, Instagram или директно да ни се јавиш.
           </p>
         </div>
       </AnimateIn>
 
-      <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto mt-12 grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-5">
         {CONTACT_METHODS.map((method) => (
           <AnimateIn
             className={method.wrapperClassName}
