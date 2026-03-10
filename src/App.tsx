@@ -1,5 +1,6 @@
 import { AboutSection } from '@/components/about-section';
 import { ContactSection } from '@/components/contact-section';
+import { CoursesMarquee } from '@/components/courses-marquee';
 import { CoursesSection } from '@/components/courses-section';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/hero';
@@ -22,6 +23,7 @@ export const App = () => (
         <AboutSection />
         <ContactSection />
       </main>
+      <CoursesMarquee />
       <Footer />
     </div>
   </ThemeProvider>

@@ -28,6 +28,8 @@ export type IconKey =
 
 export type Semester = 'summer' | 'winter';
 
+export const semesters: Semester[] = ['winter', 'summer'];
+
 export const semesterLabels: Record<Semester, string> = {
   summer: 'Летен',
   winter: 'Зимски',
@@ -231,5 +233,3 @@ export const coursesBySemester: Record<Semester, CourseData[]> = {
   summer: summerCourses,
   winter: winterCourses,
 };
-
-export const semesters: Semester[] = ['winter', 'summer'];
