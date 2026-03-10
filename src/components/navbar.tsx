@@ -1,14 +1,10 @@
 import { GraduationCap, Menu, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
+import { MobileMenu } from '@/components/navbar/mobile-menu';
+import { NavLinks } from '@/components/navbar/nav-links';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
-
-const NAV_LINKS = [
-  { href: '#courses', label: 'Предмети' },
-  { href: '#about', label: 'За нас' },
-  { href: '#contact', label: 'Контакт' },
-];
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -17,7 +13,6 @@ export const Navbar = () => {
     setMobileOpen(false);
   }, []);
 
-  // Close the mobile menu on resize past the md breakpoint
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
 
@@ -48,16 +43,8 @@ export const Navbar = () => {
           <span>learnify.mk</span>
         </a>
 
-        <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {NAV_LINKS.map((link) => (
-            <a
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              href={link.href}
-              key={link.href}
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="hidden items-center gap-6 text-sm font-medium md:flex">
+          <NavLinks linkClassName="text-muted-foreground transition-colors hover:text-foreground" />
         </div>
 
         <div className="flex items-center gap-2">
@@ -88,34 +75,7 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {mobileOpen ? (
-        <div className="border-t md:hidden">
-          <div className="flex flex-col gap-1 px-4 py-3">
-            {NAV_LINKS.map((link) => (
-              <a
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                href={link.href}
-                key={link.href}
-                onClick={close}
-              >
-                {link.label}
-              </a>
-            ))}
-            <Button
-              asChild
-              className="mt-2 sm:hidden"
-              size="sm"
-            >
-              <a
-                href="#contact"
-                onClick={close}
-              >
-                Закажи час
-              </a>
-            </Button>
-          </div>
-        </div>
-      ) : null}
+      {mobileOpen ? <MobileMenu onNavigate={close} /> : null}
     </nav>
   );
 };

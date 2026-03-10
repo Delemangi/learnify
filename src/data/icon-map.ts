@@ -13,7 +13,7 @@ import {
   Users,
 } from 'lucide-react';
 
-import type { IconKey } from '@/data/courses';
+import type { IconKey } from '@/data/course-types';
 
 export const ICON_MAP: Record<IconKey, LucideIcon> = {
   'bar-chart': BarChart3,
