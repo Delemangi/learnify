@@ -20,17 +20,18 @@ export type IconKey =
   | 'code'
   | 'cpu'
   | 'database'
-  | 'flask'
   | 'layers'
   | 'monitor'
-  | 'network'
-  | 'search'
-  | 'shield'
   | 'smartphone'
   | 'test'
   | 'users';
 
 export type Semester = 'summer' | 'winter';
+
+export const semesterLabels: Record<Semester, string> = {
+  summer: 'Летен',
+  winter: 'Зимски',
+};
 
 const winterCourses: CourseData[] = [
   {
@@ -225,8 +226,6 @@ const summerCourses: CourseData[] = [
     title: 'Напредни бази на податоци',
   },
 ];
-
-export const courses: CourseData[] = [...winterCourses, ...summerCourses];
 
 export const coursesBySemester: Record<Semester, CourseData[]> = {
   summer: summerCourses,

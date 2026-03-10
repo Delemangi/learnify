@@ -1,9 +1,11 @@
 import { Moon, Sun } from 'lucide-react';
 
+import type { Theme } from '@/hooks/theme-context';
+
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/use-theme-hook';
 
-const labels: Record<string, string> = {
+const labels: Record<Theme, string> = {
   dark: 'Темна тема',
   light: 'Светла тема',
 };
