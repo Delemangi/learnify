@@ -126,6 +126,54 @@
     animation: fade-in-up 0.6s ease-out both;
   }
 
+  @keyframes glow-drift {
+
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+      transform: translate3d(0, 14px, 0) scale(1.04);
+    }
+  }
+
+  @keyframes glow-drift-reverse {
+
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+      transform: translate3d(0, -12px, 0) scale(0.98);
+    }
+  }
+
+  @keyframes soft-float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  .animate-glow-drift {
+    animation: glow-drift 12s ease-in-out infinite;
+  }
+
+  .animate-glow-drift-reverse {
+    animation: glow-drift-reverse 14s ease-in-out infinite;
+  }
+
+  .animate-soft-float {
+    animation: soft-float 5.5s ease-in-out infinite;
+  }
+
   @keyframes marquee {
     from {
       transform: translateX(0);
@@ -162,6 +210,13 @@
     .animate-fade-in-up {
       animation: none;
       opacity: 1;
+    }
+
+    .animate-glow-drift,
+    .animate-glow-drift-reverse,
+    .animate-soft-float {
+      animation: none;
+      transform: none;
     }
   }
 }

@@ -8,8 +8,8 @@ export const CoursesSection = () => (
     id="courses"
   >
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div className="absolute left-0 top-24 h-72 w-72 -translate-x-1/3 rounded-full bg-primary/8 blur-3xl sm:h-96 sm:w-96" />
-      <div className="absolute bottom-16 right-0 h-72 w-72 translate-x-1/3 rounded-full bg-accent/12 blur-3xl sm:h-96 sm:w-96" />
+      <div className="animate-glow-drift absolute left-0 top-24 h-72 w-72 -translate-x-1/3 rounded-full bg-primary/8 blur-3xl sm:h-96 sm:w-96" />
+      <div className="animate-glow-drift-reverse absolute bottom-16 right-0 h-72 w-72 translate-x-1/3 rounded-full bg-accent/12 blur-3xl sm:h-96 sm:w-96" />
     </div>
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <AnimateIn>

@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/button';
 export const Hero = () => (
   <section className="relative overflow-hidden py-20 sm:py-32">
     <div className="pointer-events-none absolute inset-0 -z-10">
-      <div className="absolute -top-24 left-1/2 h-125 w-200 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
+      <div className="animate-glow-drift absolute -top-24 left-1/2 h-125 w-200 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
     </div>
 
     <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
       <AnimateIn>
         <Badge
-          className="mb-6 text-sm"
+          className="animate-soft-float mb-6 text-sm"
           variant="secondary"
         >
           <BookOpen className="mr-1.5 h-3.5 w-3.5" />
