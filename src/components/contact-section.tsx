@@ -25,16 +25,16 @@ export const ContactSection = () => (
 
       <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <AnimateIn delay={0}>
-          <Card className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <CardHeader>
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <Card className="flex flex-row items-center gap-4 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:block sm:p-0 sm:text-center">
+            <CardHeader className="shrink-0 p-0 sm:p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary sm:mx-auto sm:h-12 sm:w-12">
                 <FacebookIcon className="h-6 w-6" />
               </div>
-              <CardTitle className="text-base">Facebook</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-w-0 flex-1 p-0 sm:p-6 sm:pt-0">
+              <CardTitle className="text-sm sm:text-base">Facebook</CardTitle>
               <a
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="mt-1 block truncate text-sm text-muted-foreground transition-colors hover:text-foreground"
                 href="https://facebook.com/learnify.mk"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -47,16 +47,16 @@ export const ContactSection = () => (
         </AnimateIn>
 
         <AnimateIn delay={100}>
-          <Card className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <CardHeader>
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <Card className="flex flex-row items-center gap-4 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:block sm:p-0 sm:text-center">
+            <CardHeader className="shrink-0 p-0 sm:p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary sm:mx-auto sm:h-12 sm:w-12">
                 <Mail className="h-6 w-6" />
               </div>
-              <CardTitle className="text-base">Е-пошта</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-w-0 flex-1 p-0 sm:p-6 sm:pt-0">
+              <CardTitle className="text-sm sm:text-base">Е-пошта</CardTitle>
               <a
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="mt-1 block truncate text-sm text-muted-foreground transition-colors hover:text-foreground"
                 href="mailto:info@learnify.mk"
               >
                 info@learnify.mk
@@ -69,16 +69,16 @@ export const ContactSection = () => (
           className="sm:col-span-2 lg:col-span-1"
           delay={200}
         >
-          <Card className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-            <CardHeader>
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <Card className="flex flex-row items-center gap-4 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:block sm:p-0 sm:text-center">
+            <CardHeader className="shrink-0 p-0 sm:p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary sm:mx-auto sm:h-12 sm:w-12">
                 <InstagramIcon className="h-6 w-6" />
               </div>
-              <CardTitle className="text-base">Instagram</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-w-0 flex-1 p-0 sm:p-6 sm:pt-0">
+              <CardTitle className="text-sm sm:text-base">Instagram</CardTitle>
               <a
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="mt-1 block truncate text-sm text-muted-foreground transition-colors hover:text-foreground"
                 href="https://instagram.com/learnify.mk"
                 rel="noopener noreferrer"
                 target="_blank"
