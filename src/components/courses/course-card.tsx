@@ -44,7 +44,7 @@ export const CourseCard = ({ course, semester }: CourseCardProps) => {
         {course.popular ? (
           <span
             aria-label="Популарен"
-            className="absolute -top-2 right-3 inline-flex h-5 w-5 items-center justify-center rounded-full border border-primary/25 bg-background text-primary shadow-sm"
+            className="absolute -right-1.5 -top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full border border-primary/25 bg-background text-primary shadow-sm"
             title="Популарен"
           >
             <Star className="h-3 w-3 fill-current" />
