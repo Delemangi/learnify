@@ -1,6 +1,8 @@
-import { Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 import { AnimateIn } from '@/components/animate-in';
+import { FacebookIcon } from '@/components/icons/facebook-icon';
+import { InstagramIcon } from '@/components/icons/instagram-icon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const ContactSection = () => (
@@ -15,8 +17,8 @@ export const ContactSection = () => (
             Контакт
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Јави се за да закажеме бесплатен воведен час и да направиме план за
-            учење специјално за тебе.
+            Контактирај нè ако си заинтересиран/а. Можеш да ни пишеш на е-пошта,
+            Facebook или Instagram.
           </p>
         </div>
       </AnimateIn>
@@ -26,16 +28,19 @@ export const ContactSection = () => (
           <Card className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <CardHeader>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <Phone className="h-6 w-6" />
+                <FacebookIcon className="h-6 w-6" />
               </div>
-              <CardTitle className="text-base">Телефон</CardTitle>
+              <CardTitle className="text-base">Facebook</CardTitle>
             </CardHeader>
             <CardContent>
               <a
                 className="text-muted-foreground hover:text-foreground transition-colors"
-                href="tel:+38970123456"
+                href="https://facebook.com/learnify.mk"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                +389 70 123 456
+                Learnify.mk
+                <span className="sr-only"> (се отвора во нов прозорец)</span>
               </a>
             </CardContent>
           </Card>
@@ -67,7 +72,7 @@ export const ContactSection = () => (
           <Card className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <CardHeader>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <Instagram className="h-6 w-6" />
+                <InstagramIcon className="h-6 w-6" />
               </div>
               <CardTitle className="text-base">Instagram</CardTitle>
             </CardHeader>
@@ -84,13 +89,6 @@ export const ContactSection = () => (
             </CardContent>
           </Card>
         </AnimateIn>
-      </div>
-
-      <div className="mt-10 text-center">
-        <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          Скопје, Северна Македонија
-        </div>
       </div>
     </div>
   </section>
