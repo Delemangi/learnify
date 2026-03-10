@@ -17,13 +17,13 @@ export const Hero = () => (
           variant="secondary"
         >
           <BookOpen className="mr-1.5 h-3.5 w-3.5" />
-          Приватни часови
+          Чиста Десетка
         </Badge>
       </AnimateIn>
 
       <AnimateIn delay={100}>
         <h1 className="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-          Чиста Десетка
+          Learnify
         </h1>
       </AnimateIn>
 
