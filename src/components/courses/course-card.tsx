@@ -1,4 +1,4 @@
-import { Plus, Star } from 'lucide-react';
+import { ChevronRight, Star } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 import { type CourseData, type Semester } from '@/data/courses';
@@ -36,33 +36,36 @@ export const CourseCard = ({ course, semester }: CourseCardProps) => {
         aria-controls={panelId}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="group flex h-full min-h-18 w-full cursor-pointer items-center gap-2.5 rounded-lg border border-border/60 bg-background/70 px-3 py-2.5 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 sm:min-h-[5rem]"
+        className="group relative flex h-full min-h-18 w-full items-center gap-2.5 rounded-lg border border-border/60 bg-background/70 px-3 py-2.5 pr-11 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 sm:min-h-[5rem] sm:pr-12"
         onClick={toggle}
         ref={buttonRef}
         type="button"
       >
+        {course.popular ? (
+          <span
+            aria-label="Популарен"
+            className="absolute -top-2 right-3 inline-flex h-5 w-5 items-center justify-center rounded-full border border-primary/25 bg-background text-primary shadow-sm"
+            title="Популарен"
+          >
+            <Star className="h-3 w-3 fill-current" />
+          </span>
+        ) : null}
+
         <Icon className="h-4 w-4 shrink-0 text-primary" />
         <div className="min-w-0 flex-1">
-          <span className="text-sm font-medium leading-tight">
+          <span className="block text-sm leading-snug font-medium">
             {course.title}
           </span>
         </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          {course.popular ? (
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/14 text-primary">
-              <Star className="h-3.5 w-3.5 fill-current" />
-            </span>
-          ) : null}
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-105 group-hover:bg-primary/14">
-            <Plus
-              className={
-                open
-                  ? 'h-3.5 w-3.5 rotate-45 transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]'
-                  : 'h-3.5 w-3.5 transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]'
-              }
-            />
-          </span>
-        </div>
+        <span className="absolute right-2 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md border border-border/70 bg-background/80 text-primary/85 shadow-sm transition-all duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-primary/30 group-hover:bg-primary/8 group-hover:text-primary">
+          <ChevronRight
+            className={
+              open
+                ? 'h-3 w-3 rotate-90 transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]'
+                : 'h-3 w-3 transition-transform duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]'
+            }
+          />
+        </span>
       </button>
 
       {mounted
