@@ -28,7 +28,7 @@ export const SemesterGroup = ({ courses, semester }: SemesterGroupProps) => {
       <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {semesterLabels[semester]} семестар
       </h3>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {sortedCourses.map((course, index) => (
           <div
             className={cn(
