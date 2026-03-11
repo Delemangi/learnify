@@ -36,7 +36,7 @@ export const CourseCard = ({ course, semester }: CourseCardProps) => {
         aria-controls={panelId}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="group relative flex h-full min-h-18 w-full items-center gap-2.5 rounded-lg border border-border/60 bg-background/70 px-3 py-2.5 pr-11 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 sm:min-h-[5rem] sm:pr-12"
+        className="group relative flex h-full min-h-18 w-full items-center gap-2.5 rounded-lg border border-border/60 bg-background/70 px-3 py-2.5 pr-11 text-left transition-colors hover:border-primary/30 hover:bg-primary/5 sm:min-h-20 sm:pr-12"
         onClick={toggle}
         ref={buttonRef}
         type="button"
