@@ -11,7 +11,7 @@ export const THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION =
 
 export const winterCourses: CourseData[] = [
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'code',
     semester: 'winter',
     tags: ['C'],
@@ -54,7 +54,7 @@ export const winterCourses: CourseData[] = [
     title: 'Напредно програмирање',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'monitor',
     popular: true,
     semester: 'winter',
@@ -70,7 +70,7 @@ export const winterCourses: CourseData[] = [
     title: 'Бази на податоци',
   },
   {
-    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'bar-chart',
     popular: true,
     semester: 'winter',
@@ -85,7 +85,7 @@ export const winterCourses: CourseData[] = [
     title: 'Математика 3',
   },
   {
-    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'bar-chart',
     semester: 'winter',
     tags: [],
@@ -102,7 +102,7 @@ export const winterCourses: CourseData[] = [
 
 export const summerCourses: CourseData[] = [
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'code',
     popular: true,
     semester: 'summer',
@@ -110,14 +110,14 @@ export const summerCourses: CourseData[] = [
     title: 'Објектно-ориентирано програмирање',
   },
   {
-    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'calculator',
     semester: 'summer',
     tags: [],
     title: 'Математика 2',
   },
   {
-    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'calculator',
     semester: 'summer',
     tags: [],
@@ -132,21 +132,21 @@ export const summerCourses: CourseData[] = [
     title: 'Оперативни системи',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'cpu',
     semester: 'summer',
     tags: [],
     title: 'Архитектура и организација на компјутери',
   },
   {
-    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'brain',
     semester: 'summer',
     tags: ['Python'],
     title: 'Вештачка интелигенција',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'smartphone',
     popular: true,
     semester: 'summer',
@@ -154,7 +154,7 @@ export const summerCourses: CourseData[] = [
     title: 'Електронска и мобилна трговија',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'users',
     popular: true,
     semester: 'summer',
@@ -162,21 +162,21 @@ export const summerCourses: CourseData[] = [
     title: 'Дизајн на интеракција човек-компјутер',
   },
   {
-    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'bar-chart',
     semester: 'summer',
     tags: [],
     title: 'Бизнис статистика',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION ,
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'test',
     semester: 'summer',
     tags: [],
     title: 'Софтверски квалитет и тестирање',
   },
   {
-    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'database',
     semester: 'summer',
     tags: ['SQL'],
@@ -188,4 +188,3 @@ export const coursesBySemester: Record<Semester, CourseData[]> = {
   summer: summerCourses,
   winter: winterCourses,
 };
-
