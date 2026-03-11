@@ -1,214 +1,185 @@
 import type { CourseData, Semester } from './course-types';
 
+export const PRACTICAL_COURSE_DESCRIPTION =
+  'Сеопфатно објаснување на практичниот дел од предметот, проследено со решавање лабораториски вежби и задачи од претходни испити.';
+
+export const THEORY_AND_PRACTICAL_DESCRIPTION =
+  'Сеопфатно објаснување на теоретскиот и практичниот дел од предметот, проследено со решавање лабораториски вежби и задачи од претходни испити.';
+
+export const THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION =
+  'Сеопфатно објаснување на теоретскиот и практичниот дел од предметот, проследено со решавање задачи од претходни испити.';
+
 export const winterCourses: CourseData[] = [
   {
-    description:
-      'Основи на програмирање во C: променливи, контролни структури, функции, низи и покажувачи.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'code',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['C', 'Основи'],
+    tags: ['C'],
     title: 'Структурно програмирање',
   },
   {
-    description:
-      'Линеарна алгебра, матрици, детерминанти, системи линеарни равенки и векторски простори.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'calculator',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Математика', 'Линеарна алгебра'],
+    tags: [],
     title: 'Математика 1',
   },
   {
-    description:
-      'Функции, граници, континуитет, изводи и нивна примена, интегрирање.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'calculator',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Математика', 'Калкулус'],
+    tags: [],
     title: 'Калкулус 1',
   },
   {
-    description:
-      'Сортирање, пребарување, графовски алгоритми, динамичко програмирање, стекови, редици, дрва.',
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'brain',
     popular: true,
     semester: 'winter',
-    tags: ['Алгоритми', 'Структури'],
+    tags: ['Java'],
     title: 'Алгоритми и податочни структури',
   },
   {
-    description:
-      'Практична примена на алгоритамски техники: натпреварувачко програмирање, оптимизација и проблемски задачи.',
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'brain',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Алгоритми', 'Примена'],
+    tags: ['Java'],
     title: 'Примена на алгоритми и податочни структури',
   },
   {
-    description:
-      'Напредни концепти во Java: колекции, генерици, стримови, ламбда изрази и дизајн патерни.',
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'code',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Java', 'Напредно'],
+    tags: ['Java'],
     title: 'Напредно програмирање',
   },
   {
-    description:
-      'HTML, CSS, JavaScript, React, серверско програмирање, REST API и MVC архитектура.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'monitor',
     popular: true,
     semester: 'winter',
-    tags: ['Web', 'JavaScript'],
+    tags: ['Spring Boot', 'Thymeleaf'],
     title: 'Веб програмирање',
   },
   {
-    description:
-      'ER-дијаграми, релациски модел, SQL, нормализација, трансакции и индекси.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'database',
     popular: true,
     semester: 'winter',
-    tags: ['SQL', 'Бази'],
+    tags: ['SQL'],
     title: 'Бази на податоци',
   },
   {
-    description:
-      'Основи на анализа на податоци, статистика, визуелизација и вовед во машинско учење со Python.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
     icon: 'bar-chart',
-    professor: 'Проф. Име Презиме',
+    popular: true,
     semester: 'winter',
-    tags: ['Data Science', 'Python'],
+    tags: ['Python', 'AI'],
     title: 'Вовед во наука за податоци',
   },
   {
-    description:
-      'Диференцијални равенки, Лапласова трансформација, Фуриеови редови и нумерички методи.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'calculator',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Математика', 'Диф. равенки'],
+    tags: [],
     title: 'Математика 3',
   },
   {
-    description:
-      'Теорија на веројатност, случајни променливи, распределби, статистичко заклучување и тестирање хипотези.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
     icon: 'bar-chart',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Статистика', 'Веројатност'],
+    tags: [],
     title: 'Веројатност и статистика',
   },
   {
-    description:
-      'Архитектонски стилови, дизајн патерни, SOLID принципи, микросервиси и модуларен дизајн.',
+    description: PRACTICAL_COURSE_DESCRIPTION,
     icon: 'layers',
-    professor: 'Проф. Име Презиме',
     semester: 'winter',
-    tags: ['Архитектура', 'Дизајн патерни'],
+    tags: ['Spring Boot', 'Flask', 'React'],
     title: 'Дизајн и архитектура на софтвер',
   },
 ];
 
 export const summerCourses: CourseData[] = [
   {
-    description:
-      'Класи, наследување, полиморфизам, апстракција, енкапсулација и темплејти во C++/Java.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'code',
     popular: true,
     semester: 'summer',
-    tags: ['C++', 'Java', 'ООП'],
+    tags: ['C++'],
     title: 'Објектно-ориентирано програмирање',
   },
   {
-    description:
-      'Дискретна математика: множества, релации, графови, комбинаторика и математичка логика.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
     icon: 'calculator',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['Математика', 'Дискретна'],
+    tags: [],
     title: 'Математика 2',
   },
   {
-    description:
-      'Повеќекратни интеграли, редови, Тејлорови развивања и примена во инженерство.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
     icon: 'calculator',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['Математика', 'Калкулус'],
+    tags: [],
     title: 'Калкулус 2',
   },
   {
-    description:
-      'Процеси, нишки, синхронизација, управување со меморија, датотечни системи.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'cpu',
-    professor: 'Проф. Име Презиме',
+    popular: true,
     semester: 'summer',
-    tags: ['OS', 'Системи'],
+    tags: ['Java'],
     title: 'Оперативни системи',
   },
   {
-    description:
-      'Процесорска архитектура, асемблерско програмирање, мемориска хиерархија и I/O системи.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'cpu',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['Архитектура', 'Хардвер'],
+    tags: [],
     title: 'Архитектура и организација на компјутери',
   },
   {
-    description:
-      'Пребарување, машинско учење, невронски мрежи, NLP и примена на AI алгоритми.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
     icon: 'brain',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['AI', 'ML'],
+    tags: ['Python'],
     title: 'Вештачка интелигенција',
   },
   {
-    description:
-      'E-commerce платформи, мобилни плаќања, дигитален маркетинг и бизнис модели на интернет.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'smartphone',
-    professor: 'Проф. Име Презиме',
+    popular: true,
     semester: 'summer',
-    tags: ['E-commerce', 'Мобилно'],
+    tags: ['Spring Boot', 'React'],
     title: 'Електронска и мобилна трговија',
   },
   {
-    description:
-      'UX/UI принципи, кориснички истражувања, прототипирање, евалуација на употребливост.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'users',
-    professor: 'Проф. Име Презиме',
+    popular: true,
     semester: 'summer',
-    tags: ['HCI', 'UX/UI'],
+    tags: ['Django'],
     title: 'Дизајн на интеракција човек-компјутер',
   },
   {
-    description:
-      'Статистички методи за бизнис одлуки: регресија, корелација, временски серии и прогнозирање.',
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION ,
     icon: 'bar-chart',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['Статистика', 'Бизнис'],
+    tags: [],
     title: 'Бизнис статистика',
   },
   {
-    description:
-      'Техники на тестирање, автоматизација, CI/CD, квалитет на код и управување со дефекти.',
+    description: PRACTICAL_COURSE_DESCRIPTION ,
     icon: 'test',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['Тестирање', 'QA'],
+    tags: [],
     title: 'Софтверски квалитет и тестирање',
   },
   {
-    description:
-      'NoSQL бази, дистрибуирани системи, репликација, партиционирање и оптимизација на перформанси.',
+    description: THEORY_AND_PRACTICAL_DESCRIPTION ,
     icon: 'database',
-    professor: 'Проф. Име Презиме',
     semester: 'summer',
-    tags: ['NoSQL', 'Бази'],
+    tags: ['SQL'],
     title: 'Напредни бази на податоци',
   },
 ];
@@ -217,3 +188,4 @@ export const coursesBySemester: Record<Semester, CourseData[]> = {
   summer: summerCourses,
   winter: winterCourses,
 };
+
