@@ -1,4 +1,4 @@
-import { GraduationCap } from 'lucide-react';
+import { SiteLogo } from '@/components/site-logo';
 
 export const Footer = () => (
   <footer className="border-t py-8">
@@ -6,11 +6,13 @@ export const Footer = () => (
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <a
           aria-label="Почетна страна"
-          className="flex items-center gap-2 text-sm font-medium"
+          className="block"
           href="#"
         >
-          <GraduationCap className="h-5 w-5 text-primary" />
-          learnify.mk
+          <SiteLogo
+            imageClassName="h-6"
+            textClassName="text-sm font-medium"
+          />
         </a>
         <p className="text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Learnify.mk. Сите права задржани.

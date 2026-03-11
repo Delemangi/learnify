@@ -1,8 +1,9 @@
-import { GraduationCap, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 import { MobileMenu } from '@/components/navbar/mobile-menu';
 import { NavLinks } from '@/components/navbar/nav-links';
+import { SiteLogo } from '@/components/site-logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 
@@ -36,11 +37,10 @@ export const Navbar = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a
           aria-label="Почетна страна"
-          className="flex items-center gap-2 font-bold text-xl"
+          className="block"
           href="#"
         >
-          <GraduationCap className="h-7 w-7 text-primary" />
-          <span>learnify.mk</span>
+          <SiteLogo textClassName="text-xl" />
         </a>
 
         <div className="hidden items-center gap-6 text-sm font-medium md:flex">
