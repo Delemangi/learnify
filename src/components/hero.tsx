@@ -1,4 +1,4 @@
-import { BookOpen, Phone } from 'lucide-react';
+import { BookOpen, Phone, Sparkles } from 'lucide-react';
 
 import { AnimateIn } from '@/components/animate-in';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +25,27 @@ export const Hero = () => (
         <h1 className="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
           Learnify
         </h1>
+      </AnimateIn>
+
+      <AnimateIn delay={160}>
+        <div className="mt-5 flex justify-center">
+          <a
+            className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-[linear-gradient(135deg,oklch(0.99_0.016_78_/_0.94),oklch(0.94_0.05_74_/_0.92))] px-4 py-2 text-sm font-medium text-foreground shadow-[0_12px_30px_-18px_oklch(0.7_0.2_50_/_0.85)] backdrop-blur-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_36px_-18px_oklch(0.7_0.2_50_/_0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-[linear-gradient(135deg,oklch(0.2_0.012_45_/_0.96),oklch(0.24_0.02_48_/_0.94))] dark:text-foreground"
+            href="https://finki-hub.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/12 text-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+            </span>
+            <span>
+              <span className="text-muted-foreground">Поддржано од </span>
+              <span className="bg-[linear-gradient(135deg,hsl(142_70%_58%),hsl(160_84%_52%))] bg-clip-text text-transparent">
+                ФИНКИ Хаб
+              </span>
+            </span>
+          </a>
+        </div>
       </AnimateIn>
 
       <AnimateIn delay={200}>
