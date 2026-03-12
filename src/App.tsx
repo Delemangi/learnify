@@ -6,6 +6,7 @@ import { FaqSection } from '@/components/faq-section';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/hero';
 import { Navbar } from '@/components/navbar';
+import { ScrollToTop } from '@/components/scroll-to-top';
 import { ThemeProvider } from '@/hooks/theme-provider';
 
 import { SkipLink } from './components/skip-link';
@@ -27,6 +28,7 @@ export const App = () => (
       </main>
       <CoursesMarquee />
       <Footer />
+      <ScrollToTop />
     </div>
   </ThemeProvider>
 );
