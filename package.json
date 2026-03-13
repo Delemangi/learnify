@@ -14,7 +14,7 @@
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9.39.4",
     "eslint-config-imperium": "^3.4.0",
     "typescript": "~5.9.3",
