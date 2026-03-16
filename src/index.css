@@ -271,25 +271,25 @@
   }
 
   .banner-content li {
-    color: var(--color-foreground);
+    color: var(--foreground);
     font-weight: 500;
   }
 
   .banner-content li::before {
     content: "•";
-    color: var(--color-primary);
+    color: var(--primary);
     font-weight: 700;
     margin-right: 0.5em;
   }
 
   .banner-content p {
-    color: var(--color-muted-foreground);
+    color: var(--muted-foreground);
     margin: 0.3em 0;
   }
 
   .banner-content hr {
     border: none;
-    border-top: 1px solid oklch(from var(--color-primary) l c h / 0.25);
+    border-top: 1px solid oklch(from var(--primary) l c h / 0.25);
     margin: 0.75em 0;
   }
 
