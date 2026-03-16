@@ -197,7 +197,7 @@ export const BannerGenerator = () => {
           </a>
           <div className="flex items-center gap-4">
             <h1 className="hidden text-sm font-medium sm:block">
-              Банер генератор
+              Креирај банер
             </h1>
             <ThemeToggle />
           </div>
@@ -209,7 +209,7 @@ export const BannerGenerator = () => {
           <div className="flex flex-col gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Содржина</CardTitle>
+                <CardTitle>Текст и содржина</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
@@ -224,7 +224,7 @@ export const BannerGenerator = () => {
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium">
-                    Содржина (Markdown)
+                    Главна содржина (Markdown)
                   </label>
                   <textarea
                     className={`${INPUT_CLASS} min-h-48 resize-y font-mono`}
@@ -235,11 +235,11 @@ export const BannerGenerator = () => {
                     value={content}
                   />
                   <p className="text-xs text-muted-foreground">
-                    ## за поднаслов, - за листа, --- за хоризонтална линија
+                    ## за поднаслов, - за ставка, --- за линија
                   </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Акцент текст</label>
+                  <label className="text-sm font-medium">Подзаглавие</label>
                   <input
                     className={INPUT_CLASS}
                     onChange={(e) => {
@@ -330,7 +330,7 @@ export const BannerGenerator = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Тема на банер</CardTitle>
+                <CardTitle>Тема</CardTitle>
               </CardHeader>
               <CardContent className="flex gap-2">
                 {BANNER_THEMES.map((theme) => (
@@ -364,7 +364,7 @@ export const BannerGenerator = () => {
               <CardContent className="flex gap-2">
                 {[
                   { label: 'Градиент', value: 'gradient' },
-                  { label: 'Рамна', value: 'flat' },
+                  { label: 'Еднобојна', value: 'flat' },
                   { label: 'Минимална', value: 'minimal' },
                 ].map((style) => (
                   <button
@@ -456,7 +456,7 @@ export const BannerGenerator = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Големина</CardTitle>
+                <CardTitle>Димензии</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 {PRESETS.map((preset) => (
