@@ -4,6 +4,7 @@ import { AlignmentControls } from './controls/alignment-controls';
 import { BackgroundControls } from './controls/background-controls';
 import { ColorControls } from './controls/color-controls';
 import { FontControls } from './controls/font-controls';
+import { FontSizeControls } from './controls/font-size-controls';
 import { LogoControls } from './controls/logo-controls';
 import { PaddingControls } from './controls/padding-controls';
 import { SizeControls } from './controls/size-controls';
@@ -43,6 +44,10 @@ export const BannerControlsPanel = ({
       <FontControls
         selectedFont={state.selectedFont}
         setSelectedFont={actions.setSelectedFont}
+      />
+      <FontSizeControls
+        fontSize={state.fontSize}
+        setFontSize={actions.setFontSize}
       />
       <ColorControls
         selectedHue={state.selectedHue}

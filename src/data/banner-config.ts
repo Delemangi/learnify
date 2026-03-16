@@ -4,6 +4,7 @@ export type BannerActions = {
   readonly setBgStyle: (value: BgStyle) => void;
   readonly setContent: (value: string) => void;
   readonly setContentPadding: (value: number) => void;
+  readonly setFontSize: (value: number) => void;
   readonly setHeadline: (value: string) => void;
   readonly setSelectedFont: (value: BannerFont) => void;
   readonly setSelectedHue: (value: number) => void;
@@ -26,6 +27,7 @@ export type BannerState = {
   readonly bgStyle: BgStyle;
   readonly content: string;
   readonly contentPadding: number;
+  readonly fontSize: number;
   readonly headline: string;
   readonly selectedFont: BannerFont;
   readonly selectedHue: number;

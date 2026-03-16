@@ -38,6 +38,7 @@ export const useBannerState = (): {
     PRESETS[0] ?? { height: 1_080, label: 'Instagram Post', width: 1_080 },
   );
   const [contentPadding, setContentPadding] = useState(64);
+  const [fontSize, setFontSize] = useState(100);
   const [verticalAlign, setVerticalAlign] = useState<VerticalAlign>('center');
   const [textShadow, setTextShadow] = useState(false);
 
@@ -47,6 +48,7 @@ export const useBannerState = (): {
     bgStyle,
     content,
     contentPadding,
+    fontSize,
     headline,
     selectedFont,
     selectedHue,
@@ -64,6 +66,7 @@ export const useBannerState = (): {
     setBgStyle,
     setContent,
     setContentPadding,
+    setFontSize,
     setHeadline,
     setSelectedFont,
     setSelectedHue,

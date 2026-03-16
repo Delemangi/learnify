@@ -17,6 +17,7 @@ type BannerPreviewProps = {
   readonly baseFontSize: number;
   readonly contentHtml: string;
   readonly contentPadding: number;
+  readonly fontSize: number;
   readonly headline: string;
   readonly previewRef: RefObject<HTMLDivElement | null>;
   readonly scale: number;
@@ -37,6 +38,7 @@ export const BannerPreview = ({
   baseFontSize,
   contentHtml,
   contentPadding,
+  fontSize,
   headline,
   previewRef,
   scale,
@@ -125,7 +127,7 @@ export const BannerPreview = ({
             textAlign === 'left' ? 'w-full' : ''
           }`}
           style={{
-            fontSize: `${selectedSize.width * 0.08}px`,
+            fontSize: `${selectedSize.width * 0.08 * (fontSize / 100)}px`,
             lineHeight: 1.1,
           }}
         >
@@ -150,7 +152,9 @@ export const BannerPreview = ({
         className={`absolute bottom-12 font-medium text-foreground/60 ${
           textAlign === 'left' ? 'left-[6%]' : ''
         }`}
-        style={{ fontSize: `${selectedSize.width * 0.025}px` }}
+        style={{
+          fontSize: `${selectedSize.width * 0.025 * (fontSize / 100)}px`,
+        }}
       >
         {accentText}
       </div>

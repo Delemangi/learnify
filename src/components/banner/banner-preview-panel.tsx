@@ -89,6 +89,7 @@ export const BannerPreviewPanel = ({
             baseFontSize={baseFontSize}
             contentHtml={contentHtml}
             contentPadding={state.contentPadding}
+            fontSize={state.fontSize}
             headline={state.headline}
             previewRef={previewRef}
             scale={scale}

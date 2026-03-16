@@ -50,7 +50,8 @@ export const BannerGenerator = () => {
     state.selectedSize.width > maxPreviewWidth
       ? maxPreviewWidth / state.selectedSize.width
       : 1;
-  const baseFontSize = state.selectedSize.width * 0.025;
+  const baseFontSize =
+    state.selectedSize.width * 0.025 * (state.fontSize / 100);
 
   return (
     <div className="flex h-screen flex-col">
