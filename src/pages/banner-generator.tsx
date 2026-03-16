@@ -437,7 +437,7 @@ export const BannerGenerator = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Водено знак ({watermarkOpacity}%)</CardTitle>
+                <CardTitle>Watermark ({watermarkOpacity}%)</CardTitle>
               </CardHeader>
               <CardContent>
                 <input
