@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 export const Hero = () => (
-  <section className="relative overflow-hidden py-20 sm:py-32">
+  <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-32">
     <div className="pointer-events-none absolute inset-0 -z-10">
       <div className="animate-glow-drift absolute -top-24 left-1/2 h-125 w-200 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
     </div>
@@ -30,7 +30,7 @@ export const Hero = () => (
       <AnimateIn delay={160}>
         <div className="mt-5 flex justify-center">
           <a
-            className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-[linear-gradient(135deg,oklch(0.99_0.016_78_/_0.94),oklch(0.94_0.05_74_/_0.92))] px-4 py-2 text-sm font-medium text-foreground shadow-[0_12px_30px_-18px_oklch(0.7_0.2_50_/_0.85)] backdrop-blur-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_36px_-18px_oklch(0.7_0.2_50_/_0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-[linear-gradient(135deg,oklch(0.2_0.012_45_/_0.96),oklch(0.24_0.02_48_/_0.94))] dark:text-foreground"
+            className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-[linear-gradient(135deg,oklch(0.99_0.016_78/0.94),oklch(0.94_0.05_74/0.92))] px-4 py-2 text-sm font-medium text-foreground shadow-[0_12px_30px_-18px_oklch(0.7_0.2_50_/_0.85)] backdrop-blur-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_36px_-18px_oklch(0.7_0.2_50_/_0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-[linear-gradient(135deg,oklch(0.2_0.012_45_/_0.96),oklch(0.24_0.02_48_/_0.94))] dark:text-foreground"
             href="https://finki-hub.com"
             rel="noopener noreferrer"
             target="_blank"
