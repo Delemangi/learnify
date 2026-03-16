@@ -1,5 +1,13 @@
 import { toPng } from 'html-to-image';
-import { AlignCenter, AlignLeft, Moon, Sun } from 'lucide-react';
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignVerticalJustifyCenter,
+  AlignVerticalJustifyEnd,
+  AlignVerticalJustifyStart,
+  Moon,
+  Sun,
+} from 'lucide-react';
 import { marked } from 'marked';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -128,6 +136,12 @@ export const BannerGenerator = () => {
   const [selectedSize, setSelectedSize] = useState<PresetSize>(
     PRESETS[0] ?? { height: 1_080, label: 'Instagram Post', width: 1_080 },
   );
+  const [contentPadding, setContentPadding] = useState(64);
+  const [verticalAlign, setVerticalAlign] = useState<
+    'bottom' | 'center' | 'top'
+  >('center');
+  const [textShadow, setTextShadow] = useState(false);
+  const [previewZoom, setPreviewZoom] = useState(100);
 
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -154,6 +168,19 @@ export const BannerGenerator = () => {
       console.error(error);
     }
   }, [selectedSize]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        void handleExport();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleExport]);
 
   const bgGradient = getBgGradient(bannerTheme, selectedHue);
   const getBackgroundStyle = () => {
@@ -420,7 +447,7 @@ export const BannerGenerator = () => {
               <CardHeader>
                 <CardTitle>Лого</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex flex-col gap-4">
                 <label className="flex cursor-pointer items-center gap-3">
                   <input
                     checked={showLogo}
@@ -432,6 +459,82 @@ export const BannerGenerator = () => {
                   />
                   <span className="text-sm font-medium">Прикажи лого</span>
                 </label>
+                <label className="flex cursor-pointer items-center gap-3">
+                  <input
+                    checked={textShadow}
+                    className="h-4 w-4 text-primary accent-primary"
+                    onChange={(e) => {
+                      setTextShadow(e.target.checked);
+                    }}
+                    type="checkbox"
+                  />
+                  <span className="text-sm font-medium">Сенка на текст</span>
+                </label>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Внатрешен простор ({contentPadding}px)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <input
+                  className="w-full accent-primary"
+                  max={128}
+                  min={32}
+                  onChange={(e) => {
+                    setContentPadding(Number(e.target.value));
+                  }}
+                  step={8}
+                  type="range"
+                  value={contentPadding}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Вертикално порамнување</CardTitle>
+              </CardHeader>
+              <CardContent className="flex gap-2">
+                {[
+                  {
+                    icon: AlignVerticalJustifyStart,
+                    label: 'Горе',
+                    value: 'top',
+                  },
+                  {
+                    icon: AlignVerticalJustifyCenter,
+                    label: 'Центар',
+                    value: 'center',
+                  },
+                  {
+                    icon: AlignVerticalJustifyEnd,
+                    label: 'Долу',
+                    value: 'bottom',
+                  },
+                ].map((align) => {
+                  const Icon = align.icon;
+                  return (
+                    <button
+                      className={`flex flex-1 items-center justify-center gap-2 rounded-md border p-3 text-sm font-medium transition-colors ${
+                        verticalAlign === align.value
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border hover:bg-accent hover:text-accent-foreground'
+                      }`}
+                      key={align.value}
+                      onClick={() => {
+                        setVerticalAlign(
+                          align.value as 'bottom' | 'center' | 'top',
+                        );
+                      }}
+                      type="button"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {align.label}
+                    </button>
+                  );
+                })}
               </CardContent>
             </Card>
 
@@ -496,110 +599,150 @@ export const BannerGenerator = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-lg font-semibold">Преглед</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Преглед</h2>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Зум:</span>
+                <select
+                  className={`${INPUT_CLASS} w-24`}
+                  onChange={(e) => {
+                    setPreviewZoom(Number(e.target.value));
+                  }}
+                  value={previewZoom}
+                >
+                  <option value={50}>50%</option>
+                  <option value={75}>75%</option>
+                  <option value={100}>100%</option>
+                  <option value={125}>125%</option>
+                  <option value={150}>150%</option>
+                </select>
+              </div>
+            </div>
             <div className="relative flex overflow-hidden rounded-xl border border-border bg-card p-4 sm:p-8">
               <div
-                className="mx-auto overflow-hidden bg-background shadow-2xl"
+                className="mx-auto flex origin-top flex-col items-center overflow-hidden transition-transform"
                 style={{
-                  height: `${selectedSize.height * scale}px`,
-                  width: `${selectedSize.width * scale}px`,
+                  height: `${selectedSize.height * scale * (previewZoom / 100)}px`,
+                  transform: `scale(${previewZoom / 100})`,
+                  width: `${selectedSize.width * scale * (previewZoom / 100)}px`,
                 }}
               >
                 <div
-                  className={`${bannerTheme} relative flex flex-col items-center justify-center`}
-                  ref={previewRef}
-                  style={
-                    {
-                      ...getBackgroundStyle(),
-                      '--primary':
-                        bannerTheme === 'dark'
-                          ? `oklch(0.72 0.17 ${selectedHue})`
-                          : `oklch(0.7 0.2 ${selectedHue})`,
-                      colorScheme: bannerTheme,
-                      fontFamily: `"${selectedFont.family}", ${FONT_FALLBACKS[selectedFont.category]}`,
-                      height: `${selectedSize.height}px`,
-                      padding: `${selectedSize.width * 0.06}px`,
-                      transform: `scale(${scale})`,
-                      transformOrigin: 'top left',
-                      width: `${selectedSize.width}px`,
-                    } as { [key: string]: number | string | undefined }
-                  }
+                  className="mx-auto overflow-hidden bg-background shadow-2xl"
+                  style={{
+                    height: `${selectedSize.height * scale}px`,
+                    width: `${selectedSize.width * scale}px`,
+                  }}
                 >
-                  {showLogo ? (
-                    <div className="absolute left-[6%] top-[6%] flex items-center gap-2 text-foreground">
-                      <img
-                        alt="Logo"
-                        src="/favicon.svg"
-                        style={{
-                          height: `${selectedSize.width * 0.04}px`,
-                          width: `${selectedSize.width * 0.04}px`,
-                        }}
-                      />
-                      <span
-                        className="font-bold tracking-tight"
+                  <div
+                    className={`${bannerTheme} relative flex flex-col items-center justify-center`}
+                    ref={previewRef}
+                    style={
+                      {
+                        ...getBackgroundStyle(),
+                        '--primary':
+                          bannerTheme === 'dark'
+                            ? `oklch(0.72 0.17 ${selectedHue})`
+                            : `oklch(0.7 0.2 ${selectedHue})`,
+                        colorScheme: bannerTheme,
+                        fontFamily: `"${selectedFont.family}", ${FONT_FALLBACKS[selectedFont.category]}`,
+                        height: `${selectedSize.height}px`,
+                        justifyContent:
+                          verticalAlign === 'top'
+                            ? 'flex-start'
+                            : verticalAlign === 'bottom'
+                              ? 'flex-end'
+                              : 'center',
+                        padding: `${contentPadding}px`,
+                        textShadow: textShadow
+                          ? bannerTheme === 'dark'
+                            ? '0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 8px rgba(0,0,0,0.1)'
+                          : undefined,
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                        width: `${selectedSize.width}px`,
+                      } as { [key: string]: number | string | undefined }
+                    }
+                  >
+                    {showLogo ? (
+                      <div className="absolute left-[6%] top-[6%] flex items-center gap-2 text-foreground">
+                        <img
+                          alt="Logo"
+                          src="/favicon.svg"
+                          style={{
+                            height: `${selectedSize.width * 0.04}px`,
+                            width: `${selectedSize.width * 0.04}px`,
+                          }}
+                        />
+                        <span
+                          className="font-bold tracking-tight"
+                          style={{
+                            fontSize: `${selectedSize.width * 0.025}px`,
+                          }}
+                        >
+                          learnify.mk
+                        </span>
+                      </div>
+                    ) : null}
+
+                    <img
+                      alt=""
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                      src="/favicon.svg"
+                      style={{
+                        height: '80%',
+                        opacity: watermarkOpacity / 100,
+                        width: '80%',
+                      }}
+                    />
+
+                    <div
+                      className={`relative z-10 flex w-full flex-col justify-center gap-6 ${
+                        textAlign === 'left'
+                          ? 'items-start text-left'
+                          : 'items-center text-center'
+                      }`}
+                    >
+                      {headline ? (
+                        <h2
+                          className={`font-bold tracking-tight text-foreground ${
+                            textAlign === 'left' ? 'w-full' : ''
+                          }`}
+                          style={{
+                            fontSize: `${selectedSize.width * 0.08}px`,
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          {headline}
+                        </h2>
+                      ) : null}
+
+                      {contentHtml ? (
+                        <div
+                          className={`banner-content text-foreground ${
+                            textAlign === 'left'
+                              ? 'text-left w-full'
+                              : 'text-center'
+                          }`}
+                          // eslint-disable-next-line react/no-danger -- intentional: user-authored Markdown in internal tool
+                          dangerouslySetInnerHTML={{ __html: contentHtml }}
+                          style={{ fontSize: `${baseFontSize}px` }}
+                        />
+                      ) : null}
+                    </div>
+
+                    {accentText ? (
+                      <div
+                        className={`absolute bottom-12 font-medium text-foreground/60 ${
+                          textAlign === 'left' ? 'left-[6%]' : ''
+                        }`}
                         style={{ fontSize: `${selectedSize.width * 0.025}px` }}
                       >
-                        learnify.mk
-                      </span>
-                    </div>
-                  ) : null}
-
-                  <img
-                    alt=""
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                    src="/favicon.svg"
-                    style={{
-                      height: '80%',
-                      opacity: watermarkOpacity / 100,
-                      width: '80%',
-                    }}
-                  />
-
-                  <div
-                    className={`relative z-10 flex w-full flex-col justify-center gap-6 ${
-                      textAlign === 'left'
-                        ? 'items-start text-left'
-                        : 'items-center text-center'
-                    }`}
-                  >
-                    {headline ? (
-                      <h2
-                        className={`font-bold tracking-tight text-foreground ${
-                          textAlign === 'left' ? 'w-full' : ''
-                        }`}
-                        style={{
-                          fontSize: `${selectedSize.width * 0.08}px`,
-                          lineHeight: 1.1,
-                        }}
-                      >
-                        {headline}
-                      </h2>
-                    ) : null}
-
-                    {contentHtml ? (
-                      <div
-                        className={`banner-content text-foreground ${
-                          textAlign === 'left'
-                            ? 'text-left w-full'
-                            : 'text-center'
-                        }`}
-                        // eslint-disable-next-line react/no-danger -- intentional: user-authored Markdown in internal tool
-                        dangerouslySetInnerHTML={{ __html: contentHtml }}
-                        style={{ fontSize: `${baseFontSize}px` }}
-                      />
+                        {accentText}
+                      </div>
                     ) : null}
                   </div>
-
-                  {accentText ? (
-                    <div
-                      className={`absolute bottom-12 font-medium text-foreground/60 ${
-                        textAlign === 'left' ? 'left-[6%]' : ''
-                      }`}
-                      style={{ fontSize: `${selectedSize.width * 0.025}px` }}
-                    >
-                      {accentText}
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </div>
