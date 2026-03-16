@@ -157,7 +157,13 @@ export const BannerGenerator = () => {
       await document.fonts.ready;
       const dataUrl = await toPng(previewRef.current, {
         cacheBust: true,
-        pixelRatio: 2,
+        height: selectedSize.height,
+        pixelRatio: 1,
+        style: {
+          transform: 'none',
+          transformOrigin: 'initial',
+        },
+        width: selectedSize.width,
       });
       const link = document.createElement('a');
       link.download = `learnify-banner-${selectedSize.label.toLowerCase().replaceAll(/\s+/gu, '-')}.png`;
