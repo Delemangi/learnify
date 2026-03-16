@@ -74,7 +74,7 @@ export const BannerGenerator = () => {
   const baseFontSize = selectedSize.width * 0.025;
 
   return (
-    <div className="min-h-screen pb-12">
+    <div className="flex h-screen flex-col">
       <header className="glass sticky top-0 z-50 py-4">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <a
@@ -93,8 +93,8 @@ export const BannerGenerator = () => {
         </div>
       </header>
 
-      <main className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[400px_1fr]">
+      <main className="mx-auto flex max-w-7xl flex-1 overflow-hidden px-4 py-4 sm:px-6 lg:px-8">
+        <div className="grid h-full w-full grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[380px_1fr]">
           <BannerControlsPanel
             accentText={accentText}
             bannerTheme={bannerTheme}

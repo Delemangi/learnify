@@ -55,7 +55,7 @@ export const BannerPreviewPanel = ({
   verticalAlign,
   watermarkOpacity,
 }: BannerPreviewPanelProps) => (
-  <div className="flex flex-col gap-4">
+  <div className="flex h-full flex-col gap-4 overflow-y-auto">
     <div className="flex items-center justify-between">
       <h2 className="text-lg font-semibold">Преглед</h2>
       <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export const BannerPreviewPanel = ({
         </select>
       </div>
     </div>
-    <div className="relative flex overflow-hidden rounded-xl border border-border bg-card p-4 sm:p-8">
+    <div className="relative flex overflow-auto rounded-xl border border-border bg-card p-4 sm:p-8">
       <div
         className="mx-auto flex origin-top flex-col items-center overflow-hidden transition-transform"
         style={{

@@ -82,7 +82,7 @@ export const BannerControlsPanel = ({
   verticalAlign,
   watermarkOpacity,
 }: BannerControlsPanelProps) => (
-  <div className="flex flex-col gap-6">
+  <div className="flex h-full flex-col gap-4 overflow-y-auto pb-4">
     <TextControls
       accentText={accentText}
       content={content}
