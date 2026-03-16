@@ -1,10 +1,43 @@
+export type BannerActions = {
+  readonly setAccentText: (value: string) => void;
+  readonly setBannerTheme: (value: BannerTheme) => void;
+  readonly setBgStyle: (value: BgStyle) => void;
+  readonly setContent: (value: string) => void;
+  readonly setContentPadding: (value: number) => void;
+  readonly setHeadline: (value: string) => void;
+  readonly setSelectedFont: (value: BannerFont) => void;
+  readonly setSelectedHue: (value: number) => void;
+  readonly setSelectedSize: (value: PresetSize) => void;
+  readonly setShowLogo: (value: boolean) => void;
+  readonly setTextAlign: (value: TextAlign) => void;
+  readonly setTextShadow: (value: boolean) => void;
+  readonly setVerticalAlign: (value: VerticalAlign) => void;
+  readonly setWatermarkOpacity: (value: number) => void;
+};
+
 export type BannerFont = {
   readonly category: 'sans-serif' | 'script' | 'serif';
   readonly family: string;
   readonly weights: readonly number[];
 };
-
+export type BannerState = {
+  readonly accentText: string;
+  readonly bannerTheme: BannerTheme;
+  readonly bgStyle: BgStyle;
+  readonly content: string;
+  readonly contentPadding: number;
+  readonly headline: string;
+  readonly selectedFont: BannerFont;
+  readonly selectedHue: number;
+  readonly selectedSize: PresetSize;
+  readonly showLogo: boolean;
+  readonly textAlign: TextAlign;
+  readonly textShadow: boolean;
+  readonly verticalAlign: VerticalAlign;
+  readonly watermarkOpacity: number;
+};
 export type BannerTheme = 'dark' | 'light';
+
 export type BgStyle = 'flat' | 'gradient' | 'minimal';
 export type PresetSize = {
   readonly height: number;
@@ -13,6 +46,8 @@ export type PresetSize = {
 };
 
 export type TextAlign = 'center' | 'left';
+
+export type VerticalAlign = 'bottom' | 'center' | 'top';
 
 export const ACCENT_COLORS = [
   { hue: 50, label: 'Портокалова' },

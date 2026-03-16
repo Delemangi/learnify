@@ -2,66 +2,42 @@ import { type RefObject } from 'react';
 
 import type { getBackgroundStyle } from '@/lib/banner-utils';
 
-import {
-  type BannerFont,
-  type BannerTheme,
-  INPUT_CLASS,
-  type PresetSize,
-  type TextAlign,
-} from '@/data/banner-config';
+import { Button } from '@/components/ui/button';
+import { type BannerState } from '@/data/banner-config';
 
 import { BannerPreview } from './banner-preview';
 
 type BannerPreviewPanelProps = {
-  readonly accentText: string;
   readonly backgroundStyle: ReturnType<typeof getBackgroundStyle>;
-  readonly bannerTheme: BannerTheme;
   readonly baseFontSize: number;
   readonly contentHtml: string;
-  readonly contentPadding: number;
-  readonly headline: string;
+  readonly handleExport: () => void;
+  readonly previewContainerRef: RefObject<HTMLDivElement | null>;
   readonly previewRef: RefObject<HTMLDivElement | null>;
   readonly previewZoom: number;
   readonly scale: number;
-  readonly selectedFont: BannerFont;
-  readonly selectedHue: number;
-  readonly selectedSize: PresetSize;
   readonly setPreviewZoom: (zoom: number) => void;
-  readonly showLogo: boolean;
-  readonly textAlign: TextAlign;
-  readonly textShadow: boolean;
-  readonly verticalAlign: 'bottom' | 'center' | 'top';
-  readonly watermarkOpacity: number;
+  readonly state: BannerState;
 };
 
 export const BannerPreviewPanel = ({
-  accentText,
   backgroundStyle,
-  bannerTheme,
   baseFontSize,
   contentHtml,
-  contentPadding,
-  headline,
+  handleExport,
+  previewContainerRef,
   previewRef,
   previewZoom,
   scale,
-  selectedFont,
-  selectedHue,
-  selectedSize,
   setPreviewZoom,
-  showLogo,
-  textAlign,
-  textShadow,
-  verticalAlign,
-  watermarkOpacity,
+  state,
 }: BannerPreviewPanelProps) => (
-  <div className="flex h-full flex-col gap-4 overflow-y-auto">
-    <div className="flex items-center justify-between">
-      <h2 className="text-lg font-semibold">Преглед</h2>
+  <div className="flex h-full flex-col bg-background">
+    <div className="flex h-10 items-center justify-between border-b border-border bg-card/50 px-4">
       <div className="flex items-center gap-2">
-        <span className="text-sm font-medium">Зум:</span>
+        <span className="text-xs font-medium text-muted-foreground">Зум:</span>
         <select
-          className={`${INPUT_CLASS} w-24`}
+          className="h-6 rounded border border-input bg-transparent px-1 py-0 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           onChange={(e) => {
             setPreviewZoom(Number(e.target.value));
           }}
@@ -74,41 +50,56 @@ export const BannerPreviewPanel = ({
           <option value={150}>150%</option>
         </select>
       </div>
+      <Button
+        className="h-7 px-3 text-xs font-medium"
+        onClick={handleExport}
+        size="sm"
+      >
+        Преземи PNG
+      </Button>
     </div>
-    <div className="relative flex overflow-auto rounded-xl border border-border bg-card p-4 sm:p-8">
+    <div
+      className="relative flex flex-1 items-center justify-center overflow-auto"
+      ref={previewContainerRef}
+      style={{
+        backgroundImage:
+          'radial-gradient(circle, oklch(0.5 0 0 / 0.1) 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
+      }}
+    >
       <div
-        className="mx-auto flex origin-top flex-col items-center overflow-hidden transition-transform"
+        className="flex origin-center flex-col items-center transition-transform"
         style={{
-          height: `${selectedSize.height * scale * (previewZoom / 100)}px`,
+          height: `${state.selectedSize.height * scale * (previewZoom / 100)}px`,
           transform: `scale(${previewZoom / 100})`,
-          width: `${selectedSize.width * scale * (previewZoom / 100)}px`,
+          width: `${state.selectedSize.width * scale * (previewZoom / 100)}px`,
         }}
       >
         <div
-          className="mx-auto overflow-hidden bg-background shadow-2xl"
+          className="overflow-hidden bg-background shadow-2xl"
           style={{
-            height: `${selectedSize.height * scale}px`,
-            width: `${selectedSize.width * scale}px`,
+            height: `${state.selectedSize.height * scale}px`,
+            width: `${state.selectedSize.width * scale}px`,
           }}
         >
           <BannerPreview
-            accentText={accentText}
+            accentText={state.accentText}
             backgroundStyle={backgroundStyle}
-            bannerTheme={bannerTheme}
+            bannerTheme={state.bannerTheme}
             baseFontSize={baseFontSize}
             contentHtml={contentHtml}
-            contentPadding={contentPadding}
-            headline={headline}
+            contentPadding={state.contentPadding}
+            headline={state.headline}
             previewRef={previewRef}
             scale={scale}
-            selectedFont={selectedFont}
-            selectedHue={selectedHue}
-            selectedSize={selectedSize}
-            showLogo={showLogo}
-            textAlign={textAlign}
-            textShadow={textShadow}
-            verticalAlign={verticalAlign}
-            watermarkOpacity={watermarkOpacity}
+            selectedFont={state.selectedFont}
+            selectedHue={state.selectedHue}
+            selectedSize={state.selectedSize}
+            showLogo={state.showLogo}
+            textAlign={state.textAlign}
+            textShadow={state.textShadow}
+            verticalAlign={state.verticalAlign}
+            watermarkOpacity={state.watermarkOpacity}
           />
         </div>
       </div>

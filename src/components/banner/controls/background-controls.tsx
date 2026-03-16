@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type BgStyle } from '@/data/banner-config';
 
 type BackgroundControlsProps = {
@@ -10,18 +9,18 @@ export const BackgroundControls = ({
   bgStyle,
   setBgStyle,
 }: BackgroundControlsProps) => (
-  <Card>
-    <CardHeader>
-      <CardTitle>Позадина</CardTitle>
-    </CardHeader>
-    <CardContent className="flex gap-2">
+  <div className="flex flex-col gap-2">
+    <label className="text-xs font-medium text-muted-foreground">
+      Позадина
+    </label>
+    <div className="flex gap-2">
       {[
         { label: 'Градиент', value: 'gradient' },
         { label: 'Еднобојна', value: 'flat' },
         { label: 'Минимална', value: 'minimal' },
       ].map((style) => (
         <button
-          className={`flex flex-1 items-center justify-center gap-2 rounded-md border p-3 text-sm font-medium transition-colors ${
+          className={`flex flex-1 items-center justify-center gap-1 rounded-md border p-2 text-xs font-medium transition-colors ${
             bgStyle === style.value
               ? 'border-primary bg-primary/10 text-primary'
               : 'border-border hover:bg-accent hover:text-accent-foreground'
@@ -35,6 +34,6 @@ export const BackgroundControls = ({
           {style.label}
         </button>
       ))}
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 );

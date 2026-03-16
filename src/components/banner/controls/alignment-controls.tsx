@@ -1,6 +1,5 @@
 import { AlignCenter, AlignLeft } from 'lucide-react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type TextAlign } from '@/data/banner-config';
 
 type AlignmentControlsProps = {
@@ -12,11 +11,11 @@ export const AlignmentControls = ({
   setTextAlign,
   textAlign,
 }: AlignmentControlsProps) => (
-  <Card>
-    <CardHeader>
-      <CardTitle>Порамнување</CardTitle>
-    </CardHeader>
-    <CardContent className="flex gap-2">
+  <div className="flex flex-col gap-2">
+    <label className="text-xs font-medium text-muted-foreground">
+      Порамнување
+    </label>
+    <div className="flex gap-2">
       {[
         { icon: AlignLeft, label: 'Лево', value: 'left' },
         { icon: AlignCenter, label: 'Центар', value: 'center' },
@@ -24,7 +23,7 @@ export const AlignmentControls = ({
         const Icon = align.icon;
         return (
           <button
-            className={`flex flex-1 items-center justify-center gap-2 rounded-md border p-3 text-sm font-medium transition-colors ${
+            className={`flex flex-1 items-center justify-center gap-1 rounded-md border p-2 text-xs font-medium transition-colors ${
               textAlign === align.value
                 ? 'border-primary bg-primary/10 text-primary'
                 : 'border-border hover:bg-accent hover:text-accent-foreground'
@@ -35,11 +34,11 @@ export const AlignmentControls = ({
             }}
             type="button"
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="h-3 w-3" />
             {align.label}
           </button>
         );
       })}
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 );
