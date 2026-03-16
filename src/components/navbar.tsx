@@ -55,7 +55,7 @@ export const Navbar = () => {
         <a
           aria-label="Почетна страна"
           className="group block"
-          href="#"
+          href="/"
         >
           <SiteLogo textClassName="text-xl transition-colors group-hover:text-primary" />
         </a>

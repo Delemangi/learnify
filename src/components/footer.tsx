@@ -7,7 +7,7 @@ export const Footer = () => (
         <a
           aria-label="Почетна страна"
           className="block"
-          href="#"
+          href="/"
         >
           <SiteLogo
             imageClassName="h-6"
