@@ -22,7 +22,7 @@ export const MobileMenu = ({ onNavigate }: MobileMenuProps) => (
           className="h-10"
         >
           <a
-            href="#contact"
+            href="/#contact"
             onClick={onNavigate}
           >
             Закажи час

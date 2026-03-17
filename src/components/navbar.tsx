@@ -67,7 +67,7 @@ export const Navbar = () => {
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
           <ThemeToggle />
           <Button asChild>
-            <a href="#contact">Закажи час</a>
+            <a href="/#contact">Закажи час</a>
           </Button>
         </div>
 
