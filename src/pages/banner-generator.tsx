@@ -38,12 +38,12 @@ export const BannerGenerator = () => {
     [state.content],
   );
   const bgGradient = getBgGradient(state.bannerTheme, state.selectedHue);
-  const backgroundStyle = getBackgroundStyle(
-    state.bgStyle,
-    state.bannerTheme,
-    state.selectedHue,
+  const backgroundStyle = getBackgroundStyle({
+    bannerTheme: state.bannerTheme,
     bgGradient,
-  );
+    bgStyle: state.bgStyle,
+    selectedHue: state.selectedHue,
+  });
 
   const maxPreviewWidth = Math.min(600, containerWidth - 32);
   const scale =

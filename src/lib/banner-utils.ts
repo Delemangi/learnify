@@ -24,12 +24,17 @@ export const loadGoogleFont = (font: BannerFont) => {
   document.head.append(link);
 };
 
-export const getBackgroundStyle = (
-  bgStyle: BgStyle,
-  bannerTheme: BannerTheme,
-  selectedHue: number,
-  bgGradient: string,
-) => {
+export const getBackgroundStyle = ({
+  bannerTheme,
+  bgGradient,
+  bgStyle,
+  selectedHue,
+}: {
+  bannerTheme: BannerTheme;
+  bgGradient: string;
+  bgStyle: BgStyle;
+  selectedHue: number;
+}) => {
   if (bgStyle === 'flat') {
     return {
       backgroundColor:
