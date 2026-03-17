@@ -15,7 +15,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     workingSince: new Date(2_023, 6),
   },
   {
-    certificates: ['Spring Certified Professional'],
+    certificates: ['Spring Professional Develop (2V0-72.22)'],
     companyUrl: 'https://www.netcetera.com/',
     degrees: [
       'BSc in Software Engineering - ФИНКИ',
