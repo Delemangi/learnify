@@ -41,13 +41,15 @@
   <body>
     <script>
       (function () {
-        var t = localStorage.getItem("learnify-theme");
-        var d =
-          t === "dark" || t === "light"
-            ? t
-            : window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
+        const t = localStorage.getItem("learnify-theme");
+        let d;
+        if (t === "dark" || t === "light") {
+          d = t;
+        } else if (globalThis.matchMedia("(prefers-color-scheme: dark)").matches) {
+          d = "dark";
+        } else {
+          d = "light";
+        }
         document.documentElement.classList.add(d);
       })();
     </script>

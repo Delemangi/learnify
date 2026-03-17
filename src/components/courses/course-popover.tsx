@@ -17,7 +17,7 @@ type CoursePopoverProps = {
   readonly open: boolean;
   readonly panelId: string;
   readonly panelPosition: PanelPosition;
-  readonly panelRef: RefObject<HTMLDivElement | null>;
+  readonly panelRef: RefObject<HTMLDialogElement | null>;
   readonly semester: Semester;
 };
 
@@ -40,12 +40,12 @@ export const CoursePopover = ({
     : 'translate-y-4 scale-[0.985] opacity-0';
 
   return (
-    <div
+    <dialog
       aria-label={course.title}
       className={`fixed inset-x-4 bottom-4 z-100 rounded-2xl border border-border/80 bg-card/95 p-4 text-left shadow-[0_28px_70px_-36px_rgba(0,0,0,0.55)] backdrop-blur-md transition-[opacity,transform] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[opacity,transform] ${isDesktop ? 'origin-top sm:inset-auto sm:w-80 sm:-translate-x-1/2' : 'origin-bottom'} dark:shadow-[0_28px_80px_-34px_rgba(0,0,0,0.82)] ${open ? 'translate-y-0 scale-100 opacity-100' : closedState}`}
       id={panelId}
+      open={open}
       ref={panelRef}
-      role="dialog"
       style={
         isDesktop && panelPosition
           ? {
@@ -105,6 +105,6 @@ export const CoursePopover = ({
           </Badge>
         ))}
       </div>
-    </div>
+    </dialog>
   );
 };

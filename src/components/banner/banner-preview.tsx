@@ -31,6 +31,21 @@ type BannerPreviewProps = {
   readonly watermarkOpacity: number;
 };
 
+const getJustifyContent = (verticalAlign: 'bottom' | 'center' | 'top') => {
+  if (verticalAlign === 'top') return 'flex-start';
+  if (verticalAlign === 'bottom') return 'flex-end';
+  return 'center';
+};
+
+const getTextShadowValue = (
+  textShadow: boolean,
+  bannerTheme: BannerTheme,
+): string | undefined => {
+  if (!textShadow) return undefined;
+  if (bannerTheme === 'dark') return '0 2px 8px rgba(0,0,0,0.4)';
+  return '0 2px 8px rgba(0,0,0,0.1)';
+};
+
 export const BannerPreview = ({
   accentText,
   backgroundStyle,
@@ -64,18 +79,9 @@ export const BannerPreview = ({
         colorScheme: bannerTheme,
         fontFamily: `"${selectedFont.family}", ${FONT_FALLBACKS[selectedFont.category]}`,
         height: `${selectedSize.height}px`,
-        justifyContent:
-          verticalAlign === 'top'
-            ? 'flex-start'
-            : verticalAlign === 'bottom'
-              ? 'flex-end'
-              : 'center',
+        justifyContent: getJustifyContent(verticalAlign),
         padding: `${contentPadding}px`,
-        textShadow: textShadow
-          ? bannerTheme === 'dark'
-            ? '0 2px 8px rgba(0,0,0,0.4)'
-            : '0 2px 8px rgba(0,0,0,0.1)'
-          : undefined,
+        textShadow: getTextShadowValue(textShadow, bannerTheme),
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
         width: `${selectedSize.width}px`,

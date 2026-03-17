@@ -17,7 +17,7 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
+    const mq = globalThis.matchMedia('(min-width: 1024px)');
 
     const handleChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
@@ -33,13 +33,13 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(globalThis.scrollY > 20);
     };
 
     handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    globalThis.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      globalThis.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

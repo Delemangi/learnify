@@ -10,9 +10,15 @@ export const FontControls = ({
   setSelectedFont,
 }: FontControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">Фонт</label>
+    <label
+      className="text-xs font-medium text-muted-foreground"
+      htmlFor="banner-font-select"
+    >
+      Фонт
+    </label>
     <select
       className={`${INPUT_CLASS} h-8 w-full py-1 text-xs`}
+      id="banner-font-select"
       onChange={(e) => {
         const font = FONTS.find((f) => f.family === e.target.value);
         if (font) setSelectedFont(font);

@@ -19,11 +19,15 @@ export const TextControls = ({
 }: TextControlsProps) => (
   <div className="flex flex-col gap-4">
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-medium text-muted-foreground">
+      <label
+        className="text-xs font-medium text-muted-foreground"
+        htmlFor="banner-headline"
+      >
         Наслов
       </label>
       <input
         className={INPUT_CLASS}
+        id="banner-headline"
         onChange={(e) => {
           setHeadline(e.target.value);
         }}
@@ -31,11 +35,15 @@ export const TextControls = ({
       />
     </div>
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-medium text-muted-foreground">
+      <label
+        className="text-xs font-medium text-muted-foreground"
+        htmlFor="banner-content"
+      >
         Главна содржина (Markdown)
       </label>
       <textarea
         className={`${INPUT_CLASS} min-h-32 resize-y font-mono text-sm`}
+        id="banner-content"
         onChange={(e) => {
           setContent(e.target.value);
         }}
@@ -47,11 +55,15 @@ export const TextControls = ({
       </p>
     </div>
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-medium text-muted-foreground">
+      <label
+        className="text-xs font-medium text-muted-foreground"
+        htmlFor="banner-accent-text"
+      >
         Подзаглавие
       </label>
       <input
         className={INPUT_CLASS}
+        id="banner-accent-text"
         onChange={(e) => {
           setAccentText(e.target.value);
         }}

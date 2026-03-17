@@ -7,11 +7,11 @@ import { cn } from '@/lib/utils';
 const VISIBILITY_OFFSET = 80;
 
 const scrollToTop = () => {
-  const prefersReducedMotion = window.matchMedia(
+  const prefersReducedMotion = globalThis.matchMedia(
     '(prefers-reduced-motion: reduce)',
   ).matches;
 
-  window.scrollTo({
+  globalThis.scrollTo({
     behavior: prefersReducedMotion ? 'auto' : 'smooth',
     top: 0,
   });
@@ -22,14 +22,14 @@ export const ScrollToTop = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > VISIBILITY_OFFSET);
+      setIsVisible(globalThis.scrollY > VISIBILITY_OFFSET);
     };
 
     handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    globalThis.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      globalThis.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

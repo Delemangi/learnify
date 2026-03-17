@@ -12,7 +12,7 @@ export const ThemeControls = ({
   setBannerTheme,
 }: ThemeControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">Тема</label>
+    <span className="text-xs font-medium text-muted-foreground">Тема</span>
     <div className="flex gap-2">
       {BANNER_THEMES.map((theme) => (
         <button

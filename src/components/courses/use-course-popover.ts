@@ -5,27 +5,27 @@ import type { PanelPosition } from './course-popover';
 const POPOVER_ANIMATION_MS = 220;
 
 export const useCoursePopover = () => {
-  const closeTimeoutRef = useRef<null | number>(null);
+  const closeTimeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
   const openFrameRef = useRef<null | number>(null);
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const [panelPosition, setPanelPosition] = useState<PanelPosition>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDialogElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
     if (openFrameRef.current) {
-      window.cancelAnimationFrame(openFrameRef.current);
+      globalThis.cancelAnimationFrame(openFrameRef.current);
     }
 
     if (closeTimeoutRef.current) {
-      window.clearTimeout(closeTimeoutRef.current);
+      globalThis.clearTimeout(closeTimeoutRef.current);
     }
 
     setOpen(false);
-    closeTimeoutRef.current = window.setTimeout(() => {
+    closeTimeoutRef.current = globalThis.setTimeout(() => {
       setMounted(false);
       setPanelPosition(null);
     }, POPOVER_ANIMATION_MS);
@@ -38,11 +38,11 @@ export const useCoursePopover = () => {
     }
 
     if (closeTimeoutRef.current) {
-      window.clearTimeout(closeTimeoutRef.current);
+      globalThis.clearTimeout(closeTimeoutRef.current);
     }
 
     setMounted(true);
-    openFrameRef.current = window.requestAnimationFrame(() => {
+    openFrameRef.current = globalThis.requestAnimationFrame(() => {
       setOpen(true);
     });
   };
@@ -66,12 +66,12 @@ export const useCoursePopover = () => {
     };
 
     updatePanelPosition();
-    window.addEventListener('resize', updatePanelPosition);
-    window.addEventListener('scroll', updatePanelPosition, true);
+    globalThis.addEventListener('resize', updatePanelPosition);
+    globalThis.addEventListener('scroll', updatePanelPosition, true);
 
     return () => {
-      window.removeEventListener('resize', updatePanelPosition);
-      window.removeEventListener('scroll', updatePanelPosition, true);
+      globalThis.removeEventListener('resize', updatePanelPosition);
+      globalThis.removeEventListener('scroll', updatePanelPosition, true);
     };
   }, [mounted]);
 
@@ -109,11 +109,11 @@ export const useCoursePopover = () => {
   useEffect(
     () => () => {
       if (closeTimeoutRef.current) {
-        window.clearTimeout(closeTimeoutRef.current);
+        globalThis.clearTimeout(closeTimeoutRef.current);
       }
 
       if (openFrameRef.current) {
-        window.cancelAnimationFrame(openFrameRef.current);
+        globalThis.cancelAnimationFrame(openFrameRef.current);
       }
     },
     [],
@@ -122,7 +122,8 @@ export const useCoursePopover = () => {
   return {
     buttonRef,
     close,
-    isDesktop: typeof window !== 'undefined' && window.innerWidth >= 640,
+    isDesktop:
+      typeof globalThis !== 'undefined' && globalThis.innerWidth >= 640,
     mounted,
     open,
     panelId,

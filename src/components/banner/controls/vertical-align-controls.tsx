@@ -14,9 +14,9 @@ export const VerticalAlignControls = ({
   verticalAlign,
 }: VerticalAlignControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">
+    <span className="text-xs font-medium text-muted-foreground">
       Вертикално порамнување
-    </label>
+    </span>
     <div className="flex gap-2">
       {[
         {

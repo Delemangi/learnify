@@ -12,9 +12,9 @@ export const AlignmentControls = ({
   textAlign,
 }: AlignmentControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">
+    <span className="text-xs font-medium text-muted-foreground">
       Порамнување
-    </label>
+    </span>
     <div className="flex gap-2">
       {[
         { icon: AlignLeft, label: 'Лево', value: 'left' },

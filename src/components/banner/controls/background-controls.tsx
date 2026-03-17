@@ -10,9 +10,7 @@ export const BackgroundControls = ({
   setBgStyle,
 }: BackgroundControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">
-      Позадина
-    </label>
+    <span className="text-xs font-medium text-muted-foreground">Позадина</span>
     <div className="flex gap-2">
       {[
         { label: 'Градиент', value: 'gradient' },

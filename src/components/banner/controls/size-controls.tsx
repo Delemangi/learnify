@@ -12,6 +12,7 @@ export const SizeControls = ({
   <div className="flex flex-col gap-2">
     {PRESETS.map((preset) => (
       <label
+        aria-label={preset.label}
         className="flex cursor-pointer items-center gap-2 rounded-md border border-border p-2 hover:bg-accent hover:text-accent-foreground"
         key={preset.label}
       >

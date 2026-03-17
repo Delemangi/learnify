@@ -10,7 +10,7 @@ export const ColorControls = ({
   setSelectedHue,
 }: ColorControlsProps) => (
   <div className="flex flex-col gap-2">
-    <label className="text-xs font-medium text-muted-foreground">Боја</label>
+    <span className="text-xs font-medium text-muted-foreground">Боја</span>
     <div className="flex flex-wrap gap-2">
       {ACCENT_COLORS.map((color) => (
         <button

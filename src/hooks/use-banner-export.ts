@@ -35,12 +35,15 @@ export const useBannerExport = (
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
-        void handleExport();
+        handleExport().catch((error: unknown) => {
+          // eslint-disable-next-line no-console
+          console.error('Export failed:', error);
+        });
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      globalThis.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleExport]);
 

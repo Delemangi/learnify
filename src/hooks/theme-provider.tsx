@@ -5,7 +5,9 @@ import { type Theme, ThemeProviderContext } from './theme-context';
 const STORAGE_KEY = 'learnify-theme';
 
 const getSystemTheme = (): Theme =>
-  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
 
 const isValidTheme = (value: null | string): value is Theme =>
   value === 'dark' || value === 'light';
