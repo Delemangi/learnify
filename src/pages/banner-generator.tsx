@@ -34,7 +34,7 @@ export const BannerGenerator = () => {
   const { handleExport } = useBannerExport(previewRef, state.selectedSize);
 
   const contentHtml = useMemo(
-    () => marked.parse(state.content) as string,
+    () => marked.parse(state.content, { async: false }),
     [state.content],
   );
   const bgGradient = getBgGradient(state.bannerTheme, state.selectedHue);
