@@ -68,7 +68,7 @@ export const CoursePopover = ({
               </Badge>
             ) : null}
           </div>
-          <h4 className="mt-2 text-base font-semibold leading-tight">
+          <h4 className="mt-2 text-base font-semibold leading-tight text-foreground">
             {course.title}
           </h4>
         </div>
