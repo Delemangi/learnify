@@ -6,7 +6,7 @@
     "clsx": "^2.1.1",
     "html-to-image": "^1.11.13",
     "lucide-react": "^0.577.0",
-    "marked": "^17.0.4",
+    "marked": "^17.0.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-error-boundary": "^6.1.1",
