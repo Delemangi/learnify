@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   deploy:
-    uses: finki-hub/.github/.github/workflows/cloudflare-pages.yaml@main
+    uses: Delemangi/.github/.github/workflows/cloudflare-pages.yaml@main
     with:
       project-name: learnify
     secrets:
