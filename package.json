@@ -19,8 +19,8 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
-    "eslint": "^9.39.4",
-    "eslint-config-imperium": "^3.4.0",
+    "eslint": "^10.8.0",
+    "eslint-config-imperium": "^4.1.4",
     "typescript": "~5.9.3",
     "vite": "^8.0.16"
   },
