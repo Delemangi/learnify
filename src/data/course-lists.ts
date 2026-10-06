@@ -86,6 +86,13 @@ export const winterCourses: CourseData[] = [
   },
   {
     description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
+    icon: 'calculator',
+    semester: 'winter',
+    tags: [],
+    title: 'Избрани теми од математика',
+  },
+  {
+    description: THEORY_AND_PRACTICAL_WITHOUT_LAB_DESCRIPTION,
     icon: 'bar-chart',
     semester: 'winter',
     tags: [],
@@ -132,13 +139,6 @@ export const summerCourses: CourseData[] = [
     title: 'Оперативни системи',
   },
   {
-    description: PRACTICAL_COURSE_DESCRIPTION,
-    icon: 'cpu',
-    semester: 'summer',
-    tags: [],
-    title: 'Архитектура и организација на компјутери',
-  },
-  {
     description: THEORY_AND_PRACTICAL_DESCRIPTION,
     icon: 'brain',
     semester: 'summer',
@@ -174,13 +174,6 @@ export const summerCourses: CourseData[] = [
     semester: 'summer',
     tags: [],
     title: 'Софтверски квалитет и тестирање',
-  },
-  {
-    description: THEORY_AND_PRACTICAL_DESCRIPTION,
-    icon: 'database',
-    semester: 'summer',
-    tags: ['SQL'],
-    title: 'Напредни бази на податоци',
   },
 ];
 
