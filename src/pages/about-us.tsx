@@ -39,7 +39,7 @@ export const AboutUs = () => (
               </p>
             </div>
           </AnimateIn>
-          <div className="mt-12 grid items-stretch gap-8 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid items-stretch gap-8 sm:mt-16 sm:grid-cols-2 lg:mx-auto lg:max-w-4xl">
             {TEAM_MEMBERS.map((member, index) => (
               <AnimateIn
                 className="h-full"
