@@ -27,14 +27,4 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: 'Младен Јовановски',
     workingSince: new Date(2_024, 3),
   },
-  {
-    certificates: [],
-    companyUrl: 'https://codechem.com/',
-    degrees: ['BSc in Computer Science - ФИНКИ', 'MSc in Data Science - ФИНКИ'],
-    image: '/stefan.png',
-    jobPosition: 'Software Engineer @ CodeChem',
-    linkedin: 'https://www.linkedin.com/in/stefan-milev/',
-    name: 'Стефан Милев',
-    workingSince: new Date(2_022, 6),
-  },
 ];
