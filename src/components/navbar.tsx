@@ -1,6 +1,7 @@
 import { Menu, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
+import { DiscordIcon } from '@/components/icons/discord-icon';
 import { MobileMenu } from '@/components/navbar/mobile-menu';
 import { NavLinks } from '@/components/navbar/nav-links';
 import { SiteLogo } from '@/components/site-logo';
@@ -66,6 +67,20 @@ export const Navbar = () => {
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
           <ThemeToggle />
+          <Button
+            asChild
+            className="gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
+            variant="outline"
+          >
+            <a
+              href="https://discord.gg/ArSwaDE4re"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <DiscordIcon className="h-4 w-4" />
+              Дискорд
+            </a>
+          </Button>
           <Button asChild>
             <a href="/#contact">Закажи час</a>
           </Button>
