@@ -87,6 +87,7 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
           <Button
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? 'Затвори мени' : 'Отвори мени'}
