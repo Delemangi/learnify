@@ -56,7 +56,7 @@ export const CommunitySection = () => {
                   <DiscordIcon className="h-5 w-5" />
                 </div>
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  Учи подобро, заедно.
+                  Заедница за учење
                 </h2>
                 <p className="mt-4 max-w-lg leading-7 text-muted-foreground">
                   Приклучи се на Дискорд за прашања, совети за учење и разговор
