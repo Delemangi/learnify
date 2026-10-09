@@ -91,7 +91,7 @@ export const CommunitySection = () => {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Влези во Дискорд
+                  Влези на Дискорд
                   <ArrowUpRight
                     aria-hidden="true"
                     className="h-4 w-4"
