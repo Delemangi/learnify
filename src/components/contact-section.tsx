@@ -2,6 +2,7 @@ import { Mail, Phone } from 'lucide-react';
 
 import { AnimateIn } from '@/components/animate-in';
 import { ContactCard } from '@/components/contact/contact-card';
+import { DiscordIcon } from '@/components/icons/discord-icon';
 import { FacebookIcon } from '@/components/icons/facebook-icon';
 import { InstagramIcon } from '@/components/icons/instagram-icon';
 
@@ -48,6 +49,14 @@ const CONTACT_METHODS: ContactMethod[] = [
   },
   {
     delay: 400,
+    external: true,
+    href: 'https://discord.gg/ArSwaDE4re',
+    icon: DiscordIcon,
+    label: 'Придружи се',
+    title: 'Дискорд',
+  },
+  {
+    delay: 500,
     href: 'mailto:info@learnify.mk',
     icon: Mail,
     label: 'info@learnify.mk',
@@ -73,7 +82,7 @@ export const ContactSection = () => (
         </div>
       </AnimateIn>
 
-      <div className="mx-auto mt-12 grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mx-auto mt-12 grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {CONTACT_METHODS.map((method) => (
           <AnimateIn
             className={method.wrapperClassName}

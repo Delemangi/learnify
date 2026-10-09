@@ -1,3 +1,4 @@
+import { DiscordIcon } from '@/components/icons/discord-icon';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +20,21 @@ export const MobileMenu = ({ onNavigate }: MobileMenuProps) => (
         <ThemeToggle />
         <Button
           asChild
-          className="h-10"
+          className="h-10 gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
+          variant="outline"
+        >
+          <a
+            href="https://discord.gg/ArSwaDE4re"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <DiscordIcon className="h-4 w-4" />
+            Дискорд
+          </a>
+        </Button>
+        <Button
+          asChild
+          className="col-span-2 h-10"
         >
           <a
             href="/#contact"

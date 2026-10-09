@@ -1,4 +1,5 @@
 import { AboutSection } from '@/components/about-section';
+import { CommunitySection } from '@/components/community-section';
 import { ContactSection } from '@/components/contact-section';
 import { CoursesMarquee } from '@/components/courses-marquee';
 import { CoursesSection } from '@/components/courses-section';
@@ -22,6 +23,7 @@ export const LandingPage = () => (
         <CoursesSection />
         <AboutSection />
         <FaqSection />
+        <CommunitySection />
         <ContactSection />
       </main>
       <CoursesMarquee />
