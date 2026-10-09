@@ -31,19 +31,23 @@ type BannerPreviewProps = {
   readonly watermarkOpacity: number;
 };
 
-const getJustifyContent = (verticalAlign: 'bottom' | 'center' | 'top') => {
-  if (verticalAlign === 'top') return 'flex-start';
-  if (verticalAlign === 'bottom') return 'flex-end';
-  return 'center';
-};
+const JUSTIFY_CONTENT = {
+  bottom: 'flex-end',
+  center: 'center',
+  top: 'flex-start',
+} as const;
+
+const getJustifyContent = (verticalAlign: 'bottom' | 'center' | 'top') =>
+  verticalAlign === 'top' ? 'flex-start' : JUSTIFY_CONTENT[verticalAlign];
 
 const getTextShadowValue = (
   textShadow: boolean,
   bannerTheme: BannerTheme,
 ): string | undefined => {
   if (!textShadow) return undefined;
-  if (bannerTheme === 'dark') return '0 2px 8px rgba(0,0,0,0.4)';
-  return '0 2px 8px rgba(0,0,0,0.1)';
+  return bannerTheme === 'dark'
+    ? '0 2px 8px rgba(0,0,0,0.4)'
+    : '0 2px 8px rgba(0,0,0,0.1)';
 };
 
 export const BannerPreview = ({
@@ -85,7 +89,7 @@ export const BannerPreview = ({
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
         width: `${selectedSize.width}px`,
-      } as { [key: string]: number | string | undefined }
+      } as Record<string, number | string | undefined>
     }
   >
     {showLogo ? (
@@ -146,7 +150,7 @@ export const BannerPreview = ({
           className={`banner-content text-foreground ${
             textAlign === 'left' ? 'text-left w-full' : 'text-center'
           }`}
-          // eslint-disable-next-line react/no-danger -- intentional: user-authored Markdown in internal tool
+          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- Existing Markdown HTML is not sanitized in this component.
           dangerouslySetInnerHTML={{ __html: contentHtml }}
           style={{ fontSize: `${baseFontSize}px` }}
         />

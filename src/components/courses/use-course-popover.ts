@@ -16,11 +16,11 @@ export const useCoursePopover = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
-    if (openFrameRef.current) {
+    if (openFrameRef.current !== null) {
       globalThis.cancelAnimationFrame(openFrameRef.current);
     }
 
-    if (closeTimeoutRef.current) {
+    if (closeTimeoutRef.current !== null) {
       globalThis.clearTimeout(closeTimeoutRef.current);
     }
 
@@ -37,7 +37,7 @@ export const useCoursePopover = () => {
       return;
     }
 
-    if (closeTimeoutRef.current) {
+    if (closeTimeoutRef.current !== null) {
       globalThis.clearTimeout(closeTimeoutRef.current);
     }
 
@@ -67,11 +67,15 @@ export const useCoursePopover = () => {
 
     updatePanelPosition();
     globalThis.addEventListener('resize', updatePanelPosition);
-    globalThis.addEventListener('scroll', updatePanelPosition, true);
+    globalThis.addEventListener('scroll', updatePanelPosition, {
+      capture: true,
+    });
 
     return () => {
       globalThis.removeEventListener('resize', updatePanelPosition);
-      globalThis.removeEventListener('scroll', updatePanelPosition, true);
+      globalThis.removeEventListener('scroll', updatePanelPosition, {
+        capture: true,
+      });
     };
   }, [mounted]);
 
@@ -108,11 +112,11 @@ export const useCoursePopover = () => {
 
   useEffect(
     () => () => {
-      if (closeTimeoutRef.current) {
+      if (closeTimeoutRef.current !== null) {
         globalThis.clearTimeout(closeTimeoutRef.current);
       }
 
-      if (openFrameRef.current) {
+      if (openFrameRef.current !== null) {
         globalThis.cancelAnimationFrame(openFrameRef.current);
       }
     },

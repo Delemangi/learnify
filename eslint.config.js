@@ -7,12 +7,69 @@ import {
   typescript,
 } from 'eslint-config-imperium';
 
-export default [
+// Temporary: keep package.json's root peer override until jsx-a11y supports ESLint 10.
+const eslintConfig = [
   { ignores: ['dist', 'vite.config.ts'] },
-  base,
+  ...base,
   browser,
   react,
   typescript,
   prettier,
   perfectionist,
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      // Preserve stable data-module aliases without banning other barrels.
+      'no-barrel-files/prefer-source-imports': [
+        'error',
+        {
+          fixStyle: 'preserve-alias',
+          ignore: ['@/data/courses', '@/data/team'],
+        },
+      ],
+      // Keep explicit globals and Date compatible with the app's browser targets.
+      'unicorn/no-unnecessary-global-this': 'off',
+      'unicorn/prefer-temporal': 'off',
+    },
+  },
+  // These modules intentionally expose stable data-layer entry points.
+  {
+    files: ['src/data/courses.ts', 'src/data/team.ts'],
+    rules: {
+      'no-barrel-files/no-barrel-files': 'off',
+    },
+  },
+  // Keep ref-forwarding behavior stable for existing shared primitives.
+  {
+    files: ['src/components/ui/{button,card}.tsx'],
+    rules: {
+      '@eslint-react/no-forward-ref': 'off',
+    },
+  },
+  // These repeated values are CSS/font tokens; flag only less-common duplication.
+  {
+    files: ['src/data/banner-config.ts'],
+    rules: {
+      'sonarjs/no-duplicate-string': [
+        'error',
+        { ignoreStrings: 'application/json,sans-serif', threshold: 5 },
+      ],
+    },
+  },
+  // Retain a copy before sorting for compatibility with supported browsers.
+  {
+    files: ['src/components/courses/semester-group.tsx'],
+    rules: {
+      'e18e/prefer-array-to-sorted': 'off',
+    },
+  },
+  // Vite plugin factories are intentionally called in the exported config.
+  {
+    files: ['vite.config.js'],
+    rules: {
+      'unicorn/no-top-level-side-effects': 'off',
+    },
+  },
 ];
+
+export default eslintConfig;

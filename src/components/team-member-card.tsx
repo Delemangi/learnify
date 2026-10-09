@@ -22,14 +22,16 @@ export const TeamMemberCard = ({ member }: { readonly member: TeamMember }) => (
         <Briefcase className="size-4" />
         {member.companyUrl && member.jobPosition.includes('@') ? (
           <span>
-            {member.jobPosition.split('@')[0]}@{' '}
+            {member.jobPosition.slice(0, member.jobPosition.indexOf('@'))}@{' '}
             <a
               className="underline underline-offset-4"
               href={member.companyUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
-              {member.jobPosition.split('@').slice(1).join('@').trim()}
+              {member.jobPosition
+                .slice(member.jobPosition.indexOf('@') + 1)
+                .trim()}
             </a>
           </span>
         ) : (

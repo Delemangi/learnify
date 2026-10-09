@@ -4,12 +4,10 @@ import {
   type BgStyle,
 } from '@/data/banner-config';
 
-export const getBgGradient = (theme: BannerTheme, hue: number): string => {
-  if (theme === 'dark') {
-    return `radial-gradient(circle at top, oklch(0.48 0.12 ${hue + 5} / 0.32), transparent 30%), radial-gradient(circle at 20% 20%, oklch(0.3 0.04 ${hue - 12} / 0.4), transparent 24%), linear-gradient(180deg, oklch(0.19 0.012 ${hue - 5}), oklch(0.13 0.008 ${hue - 5}))`;
-  }
-  return `radial-gradient(circle at top, oklch(0.9 0.1 ${hue + 18} / 0.92), transparent 34%), radial-gradient(circle at 15% 18%, oklch(0.82 0.18 ${hue + 2} / 0.32), transparent 24%), linear-gradient(180deg, oklch(0.995 0.012 ${hue + 30}), oklch(0.955 0.03 ${hue + 24}))`;
-};
+export const getBgGradient = (theme: BannerTheme, hue: number): string =>
+  theme === 'dark'
+    ? `radial-gradient(circle at top, oklch(0.48 0.12 ${hue + 5} / 0.32), transparent 30%), radial-gradient(circle at 20% 20%, oklch(0.3 0.04 ${hue - 12} / 0.4), transparent 24%), linear-gradient(180deg, oklch(0.19 0.012 ${hue - 5}), oklch(0.13 0.008 ${hue - 5}))`
+    : `radial-gradient(circle at top, oklch(0.9 0.1 ${hue + 18} / 0.92), transparent 34%), radial-gradient(circle at 15% 18%, oklch(0.82 0.18 ${hue + 2} / 0.32), transparent 24%), linear-gradient(180deg, oklch(0.995 0.012 ${hue + 30}), oklch(0.955 0.03 ${hue + 24}))`;
 
 const loadedFonts = new Set<string>();
 
