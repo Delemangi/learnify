@@ -16,25 +16,27 @@ export const MobileMenu = ({ onNavigate }: MobileMenuProps) => (
         onNavigate={onNavigate}
       />
 
-      <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border pt-4">
-        <ThemeToggle />
-        <Button
-          asChild
-          className="h-10 gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
-          variant="outline"
-        >
-          <a
-            href="https://discord.gg/ArSwaDE4re"
-            rel="noopener noreferrer"
-            target="_blank"
+      <div className="mt-4 space-y-2 border-t border-border pt-4">
+        <div className="flex items-center gap-2">
+          <Button
+            asChild
+            className="h-10 flex-1 gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
+            variant="outline"
           >
-            <DiscordIcon className="h-4 w-4" />
-            Дискорд
-          </a>
-        </Button>
+            <a
+              href="https://discord.gg/ArSwaDE4re"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <DiscordIcon className="h-4 w-4" />
+              Дискорд
+            </a>
+          </Button>
+          <ThemeToggle />
+        </div>
         <Button
           asChild
-          className="col-span-2 h-10"
+          className="h-10 w-full"
         >
           <a
             href="/#contact"

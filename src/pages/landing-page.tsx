@@ -22,8 +22,8 @@ export const LandingPage = () => (
         <Hero />
         <CoursesSection />
         <AboutSection />
-        <FaqSection />
         <CommunitySection />
+        <FaqSection />
         <ContactSection />
       </main>
       <CoursesMarquee />
