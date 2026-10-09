@@ -1,5 +1,4 @@
 import { DiscordIcon } from '@/components/icons/discord-icon';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 
 import { NavLinks } from './nav-links';
@@ -16,27 +15,24 @@ export const MobileMenu = ({ onNavigate }: MobileMenuProps) => (
         onNavigate={onNavigate}
       />
 
-      <div className="mt-4 space-y-2 border-t border-border pt-4">
-        <div className="flex items-center gap-2">
-          <Button
-            asChild
-            className="h-10 flex-1 gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
-            variant="outline"
-          >
-            <a
-              href="https://discord.gg/ArSwaDE4re"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <DiscordIcon className="h-4 w-4" />
-              Дискорд
-            </a>
-          </Button>
-          <ThemeToggle />
-        </div>
+      <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border pt-4">
         <Button
           asChild
-          className="h-10 w-full"
+          className="h-11 w-full gap-2 border-primary/40 bg-primary/10 font-semibold text-foreground hover:bg-primary/20 hover:text-foreground"
+          variant="outline"
+        >
+          <a
+            href="https://discord.gg/ArSwaDE4re"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <DiscordIcon className="h-4 w-4" />
+            Дискорд
+          </a>
+        </Button>
+        <Button
+          asChild
+          className="h-11 w-full"
         >
           <a
             href="/#contact"
