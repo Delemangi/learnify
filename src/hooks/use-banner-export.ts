@@ -1,5 +1,11 @@
 import { toPng } from 'html-to-image';
-import { type RefObject, useCallback, useEffect } from 'react';
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { type PresetSize } from '@/data/banner-config';
 
@@ -7,11 +13,25 @@ export const useBannerExport = (
   previewRef: RefObject<HTMLDivElement | null>,
   selectedSize: PresetSize,
 ) => {
+  const inProgress = useRef(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState(false);
+  const [exportSuccess, setExportSuccess] = useState(false);
   const handleExport = useCallback(async () => {
-    if (!previewRef.current) return;
+    if (inProgress.current) return;
+    const node = previewRef.current;
+    if (!node) {
+      setExportError(true);
+      setExportSuccess(false);
+      return;
+    }
+    inProgress.current = true;
+    setIsExporting(true);
+    setExportError(false);
+    setExportSuccess(false);
     try {
       await document.fonts.ready;
-      const dataUrl = await toPng(previewRef.current, {
+      const dataUrl = await toPng(node, {
         cacheBust: true,
         height: selectedSize.height,
         pixelRatio: 1,
@@ -25,9 +45,14 @@ export const useBannerExport = (
       link.download = `learnify-banner-${selectedSize.label.toLowerCase().replaceAll(/\s+/gu, '-')}.png`;
       link.href = dataUrl;
       link.click();
-    } catch (error: unknown) {
-      // eslint-disable-next-line no-console -- Keep export failures visible for debugging.
-      console.error(error);
+      setExportSuccess(true);
+    } catch {
+      // Capture/font failures are intentionally shown as an in-app retry message.
+      setExportError(true);
+    } finally {
+      // eslint-disable-next-line require-atomic-updates -- Release the synchronous gate after this capture settles.
+      inProgress.current = false;
+      setIsExporting(false);
     }
   }, [previewRef, selectedSize]);
 
@@ -44,5 +69,5 @@ export const useBannerExport = (
     };
   }, [handleExport]);
 
-  return { handleExport };
+  return { exportError, exportSuccess, handleExport, isExporting };
 };

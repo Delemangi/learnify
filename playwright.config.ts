@@ -10,7 +10,11 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop',
-      testMatch: '**/desktop.spec.ts',
+      testMatch: [
+        '**/desktop.spec.ts',
+        '**/reliability.spec.ts',
+        '**/banner.spec.ts',
+      ],
       use: { viewport: { height: 1_000, width: 1_440 } },
     },
     {

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
 
+import { assertLocalFontLoaded, assertPng } from './browser-helpers';
 import { test } from './fixtures';
 
 test('theme toggles root class and persists across reload', async ({
@@ -9,15 +9,20 @@ test('theme toggles root class and persists across reload', async ({
   await page.goto('/');
   const root = page.locator('html');
   await expect(root).toHaveClass(/light/u);
-  await page.getByRole('button', { name: 'Светла тема' }).click();
+  await page.getByRole('button', { name: 'Префрли на темна тема' }).click();
   await expect(root).toHaveClass(/dark/u);
+  await expect(root).not.toHaveClass(/light/u);
+  await expect(
+    page.getByRole('button', { name: 'Префрли на светла тема' }),
+  ).toBeVisible();
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem('learnify-theme')))
     .toBe('dark');
   await page.reload();
   await expect(root).toHaveClass(/dark/u);
-  await page.getByRole('button', { name: 'Темна тема' }).click();
+  await page.getByRole('button', { name: 'Префрли на светла тема' }).click();
   await expect(root).toHaveClass(/light/u);
+  await expect(root).not.toHaveClass(/dark/u);
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem('learnify-theme')))
     .toBe('light');
@@ -28,19 +33,35 @@ test('course dialog opens and closes with Escape and an outside click', async ({
 }) => {
   await page.goto('/');
   const course = page.locator('button[aria-haspopup="dialog"]').first();
-  await course.click();
+  await course.focus();
+  await course.press('Enter');
   await expect(course).toHaveAttribute('aria-expanded', 'true');
   await expect(page.getByRole('dialog')).toBeVisible();
+  const dialog = page.getByRole('dialog');
+  await expect
+    .poll(() =>
+      dialog.evaluate((element) => element.contains(document.activeElement)),
+    )
+    .toBe(true);
+  for (const key of ['Tab', 'Tab', 'Shift+Tab', 'Shift+Tab']) {
+    await page.keyboard.press(key);
+    await expect
+      .poll(() =>
+        dialog.evaluate((element) => element.contains(document.activeElement)),
+      )
+      .toBe(true);
+  }
   await page.keyboard.press('Escape');
   await expect(course).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(course).toBeFocused();
   await course.click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await page
-    .getByRole('banner', { name: 'Главна навигација' })
-    .click({ position: { x: 10, y: 10 } });
+  // A native modal makes the page behind it inert; click its backdrop, not an inert locator.
+  await page.mouse.click(10, 10);
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(course).toHaveAttribute('aria-expanded', 'false');
+  await expect(course).toBeFocused();
 });
 
 test('Markdown edits retain headings, lists, rules and safe links', async ({
@@ -119,21 +140,29 @@ test('PNG downloads work from the button and Ctrl+S', async ({
   page,
 }, testInfo) => {
   await page.goto('/banner');
-  for (const trigger of ['button', 'shortcut']) {
+  await assertLocalFontLoaded(page);
+  const presets = [
+    { height: 1_080, label: 'Instagram Post', width: 1_080 },
+    { height: 1_920, label: 'Instagram Story', width: 1_080 },
+    { height: 630, label: 'Facebook Post', width: 1_200 },
+    { height: 627, label: 'LinkedIn Post', width: 1_200 },
+  ];
+  for (const preset of presets) {
+    await page.getByRole('radio', { name: preset.label }).check();
     const downloadPromise = page.waitForEvent('download');
-    if (trigger === 'button') {
-      await page.getByRole('button', { name: 'Преземи PNG' }).click();
-    } else {
-      await page.keyboard.press('Control+s');
-    }
+    await page.getByRole('button', { name: 'Преземи PNG' }).click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/^learnify-banner-.+\.png$/u);
-    expect(await download.failure()).toBeNull();
-    const path = testInfo.outputPath(`${trigger}.png`);
-    await download.saveAs(path);
-    // eslint-disable-next-line security/detect-non-literal-fs-filename -- Playwright owns this test output path.
-    const png = await readFile(path);
-    expect(png.length).toBeGreaterThan(8);
-    expect([...png.subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
+    await assertPng(download, testInfo, {
+      height: preset.height,
+      name: preset.label,
+      width: preset.width,
+    });
   }
+  const shortcut = page.waitForEvent('download');
+  await page.keyboard.press('Control+s');
+  await assertPng(await shortcut, testInfo, {
+    height: 627,
+    name: 'shortcut',
+    width: 1_200,
+  });
 });

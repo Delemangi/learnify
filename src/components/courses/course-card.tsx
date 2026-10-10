@@ -24,14 +24,10 @@ export const CourseCard = ({ course, semester }: CourseCardProps) => {
     panelPosition,
     panelRef,
     toggle,
-    wrapperRef,
   } = useCoursePopover();
 
   return (
-    <div
-      className={open ? 'relative z-30' : 'relative'}
-      ref={wrapperRef}
-    >
+    <div className={open ? 'relative z-30' : 'relative'}>
       <button
         aria-controls={panelId}
         aria-expanded={open}
@@ -70,24 +66,16 @@ export const CourseCard = ({ course, semester }: CourseCardProps) => {
 
       {mounted
         ? createPortal(
-            <>
-              <button
-                aria-label="Затвори детали за предметот"
-                className={`fixed inset-0 z-90 bg-black/20 backdrop-blur-[1px] transition-opacity duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] sm:hidden ${open ? 'opacity-100' : 'opacity-0'}`}
-                onClick={close}
-                type="button"
-              />
-              <CoursePopover
-                course={course}
-                isDesktop={isDesktop}
-                onClose={close}
-                open={open}
-                panelId={panelId}
-                panelPosition={panelPosition}
-                panelRef={panelRef}
-                semester={semester}
-              />
-            </>,
+            <CoursePopover
+              course={course}
+              isDesktop={isDesktop}
+              onClose={close}
+              open={open}
+              panelId={panelId}
+              panelPosition={panelPosition}
+              panelRef={panelRef}
+              semester={semester}
+            />,
             document.body,
           )
         : null}

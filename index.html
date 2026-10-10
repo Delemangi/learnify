@@ -41,14 +41,23 @@
   <body>
     <script>
       (function () {
-        const t = localStorage.getItem("learnify-theme");
+        let t = null;
+        try {
+          t = window.localStorage.getItem("learnify-theme");
+        } catch (e) {
+          // Storage can be unavailable in restricted browser contexts.
+        }
         let d;
         if (t === "dark" || t === "light") {
           d = t;
-        } else if (globalThis.matchMedia("(prefers-color-scheme: dark)").matches) {
-          d = "dark";
         } else {
-          d = "light";
+          try {
+            d = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          } catch (e) {
+            d = "light";
+          }
         }
         document.documentElement.classList.add(d);
       })();

@@ -13,7 +13,6 @@ export const useCoursePopover = () => {
   const [panelPosition, setPanelPosition] = useState<PanelPosition>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDialogElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
     if (openFrameRef.current !== null) {
@@ -26,8 +25,10 @@ export const useCoursePopover = () => {
 
     setOpen(false);
     closeTimeoutRef.current = globalThis.setTimeout(() => {
+      if (panelRef.current?.open) panelRef.current.close();
       setMounted(false);
       setPanelPosition(null);
+      buttonRef.current?.focus();
     }, POPOVER_ANIMATION_MS);
   };
 
@@ -60,6 +61,7 @@ export const useCoursePopover = () => {
       }
 
       setPanelPosition({
+        anchorTop: rect.top,
         left: rect.left + rect.width / 2,
         top: rect.bottom + 12,
       });
@@ -76,37 +78,6 @@ export const useCoursePopover = () => {
       globalThis.removeEventListener('scroll', updatePanelPosition, {
         capture: true,
       });
-    };
-  }, [mounted]);
-
-  useEffect(() => {
-    if (!mounted) {
-      return () => {};
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
-
-      if (
-        !wrapperRef.current?.contains(target) &&
-        !panelRef.current?.contains(target)
-      ) {
-        close();
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        close();
-      }
-    };
-
-    document.addEventListener('pointerdown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [mounted]);
 
@@ -134,6 +105,5 @@ export const useCoursePopover = () => {
     panelPosition,
     panelRef,
     toggle,
-    wrapperRef,
   };
 };
