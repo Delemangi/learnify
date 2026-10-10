@@ -11,7 +11,10 @@ type BannerPreviewPanelProps = {
   readonly backgroundStyle: ReturnType<typeof getBackgroundStyle>;
   readonly baseFontSize: number;
   readonly contentHtml: string;
+  readonly exportError: boolean;
+  readonly exportSuccess: boolean;
   readonly handleExport: () => void;
+  readonly isExporting: boolean;
   readonly previewContainerRef: RefObject<HTMLDivElement | null>;
   readonly previewRef: RefObject<HTMLDivElement | null>;
   readonly previewZoom: number;
@@ -24,7 +27,10 @@ export const BannerPreviewPanel = ({
   backgroundStyle,
   baseFontSize,
   contentHtml,
+  exportError,
+  exportSuccess,
   handleExport,
+  isExporting,
   previewContainerRef,
   previewRef,
   previewZoom,
@@ -51,13 +57,26 @@ export const BannerPreviewPanel = ({
         </select>
       </div>
       <Button
+        aria-busy={isExporting}
         className="h-7 px-3 text-xs font-medium"
+        disabled={isExporting}
         onClick={handleExport}
         size="sm"
       >
-        Преземи PNG
+        {isExporting ? 'Се подготвува…' : 'Преземи PNG'}
       </Button>
     </div>
+    {(exportError || exportSuccess) && (
+      <p
+        aria-live="polite"
+        className={`border-b px-4 py-2 text-sm ${exportError ? 'border-destructive/30 bg-destructive/5 text-destructive' : 'border-border bg-muted/40 text-muted-foreground'}`}
+        role={exportError ? 'alert' : 'status'}
+      >
+        {exportError
+          ? 'PNG-от не се создаде. Обидете се повторно.'
+          : 'PNG-сликата е подготвена. Преземањето е започнато. Проверете дали фонтот изгледа правилно.'}
+      </p>
+    )}
     <div
       className="relative flex flex-1 items-center justify-center overflow-auto"
       ref={previewContainerRef}

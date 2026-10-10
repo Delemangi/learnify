@@ -1,13 +1,19 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 
+import { readStorage, writeStorage } from '../lib/safe-storage';
 import { type Theme, ThemeProviderContext } from './theme-context';
 
 const STORAGE_KEY = 'learnify-theme';
 
-const getSystemTheme = (): Theme =>
-  globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+const getSystemTheme = (): Theme => {
+  try {
+    return globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  } catch {
+    return 'light';
+  }
+};
 
 const isValidTheme = (value: null | string): value is Theme =>
   value === 'dark' || value === 'light';
@@ -25,7 +31,7 @@ type ThemeProviderProps = {
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = readStorage(STORAGE_KEY);
     return isValidTheme(stored) ? stored : getSystemTheme();
   });
 
@@ -36,7 +42,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const value = useMemo(
     () => ({
       setTheme: (next: Theme) => {
-        localStorage.setItem(STORAGE_KEY, next);
+        writeStorage(STORAGE_KEY, next);
         setTheme(next);
       },
       theme,

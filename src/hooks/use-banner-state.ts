@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import {
   type BannerActions,
@@ -13,8 +13,13 @@ import {
   type TextAlign,
   type VerticalAlign,
 } from '@/data/banner-config';
+import { readStorage, removeStorage, writeStorage } from '@/lib/safe-storage';
+
+const DRAFT_KEY = 'learnify-banner-draft';
+const DRAFT_VERSION = 1;
 
 type BannerAction =
+  | { type: 'RESET' }
   | { type: 'SET_ACCENT_TEXT'; value: string }
   | { type: 'SET_BANNER_THEME'; value: BannerTheme }
   | { type: 'SET_BG_STYLE'; value: BgStyle }
@@ -57,11 +62,133 @@ const INITIAL_STATE: BannerState = {
   watermarkOpacity: 5,
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+const BG_STYLES = new Set(['flat', 'gradient', 'minimal']);
+const VERTICAL_ALIGNS = new Set(['bottom', 'center', 'top']);
+const finiteIn = (value: unknown, min: number, max: number): value is number =>
+  typeof value === 'number' &&
+  Number.isFinite(value) &&
+  value >= min &&
+  value <= max;
+const isBgStyle = (value: unknown): value is BgStyle =>
+  typeof value === 'string' && BG_STYLES.has(value);
+const isVerticalAlign = (value: unknown): value is VerticalAlign =>
+  typeof value === 'string' && VERTICAL_ALIGNS.has(value);
+
+const restoreText = (
+  state: BannerState,
+  saved: Record<string, unknown>,
+): void => {
+  if (typeof saved['headline'] === 'string') {
+    Object.assign(state, { headline: saved['headline'] });
+  }
+  if (typeof saved['accentText'] === 'string') {
+    Object.assign(state, { accentText: saved['accentText'] });
+  }
+  if (typeof saved['content'] === 'string') {
+    Object.assign(state, { content: saved['content'] });
+  }
+};
+
+const restoreAppearance = (
+  state: BannerState,
+  saved: Record<string, unknown>,
+): void => {
+  if (saved['bannerTheme'] === 'light' || saved['bannerTheme'] === 'dark') {
+    Object.assign(state, { bannerTheme: saved['bannerTheme'] });
+  }
+  const bgStyle = saved['bgStyle'];
+  if (isBgStyle(bgStyle)) {
+    Object.assign(state, { bgStyle });
+  }
+  if (saved['textAlign'] === 'left' || saved['textAlign'] === 'center') {
+    Object.assign(state, { textAlign: saved['textAlign'] });
+  }
+  const verticalAlign = saved['verticalAlign'];
+  if (isVerticalAlign(verticalAlign)) {
+    Object.assign(state, { verticalAlign });
+  }
+};
+
+const restoreNumbersAndFlags = (
+  state: BannerState,
+  saved: Record<string, unknown>,
+): void => {
+  if (finiteIn(saved['contentPadding'], 0, 200)) {
+    Object.assign(state, { contentPadding: saved['contentPadding'] });
+  }
+  if (finiteIn(saved['fontSize'], 25, 200)) {
+    Object.assign(state, { fontSize: saved['fontSize'] });
+  }
+  if (finiteIn(saved['selectedHue'], 0, 360)) {
+    Object.assign(state, { selectedHue: saved['selectedHue'] });
+  }
+  if (finiteIn(saved['watermarkOpacity'], 0, 100)) {
+    Object.assign(state, { watermarkOpacity: saved['watermarkOpacity'] });
+  }
+  if (typeof saved['showLogo'] === 'boolean') {
+    Object.assign(state, { showLogo: saved['showLogo'] });
+  }
+  if (typeof saved['textShadow'] === 'boolean') {
+    Object.assign(state, { textShadow: saved['textShadow'] });
+  }
+};
+
+const restoreSelections = (
+  state: BannerState,
+  saved: Record<string, unknown>,
+): void => {
+  const storedFont = saved['selectedFont'];
+  if (isRecord(storedFont)) {
+    const family = storedFont['family'];
+    if (typeof family === 'string') {
+      const font = FONTS.find((candidate) => candidate.family === family);
+      if (font) Object.assign(state, { selectedFont: font });
+    }
+  }
+
+  const storedSize = saved['selectedSize'];
+  if (!isRecord(storedSize)) return;
+  const label = storedSize['label'];
+  if (typeof label !== 'string') return;
+  const preset = PRESETS.find((candidate) => candidate.label === label);
+  if (preset) Object.assign(state, { selectedSize: preset });
+};
+
+const restoreBannerState = (saved: Record<string, unknown>): BannerState => {
+  const state = { ...INITIAL_STATE };
+  restoreText(state, saved);
+  restoreAppearance(state, saved);
+  restoreNumbersAndFlags(state, saved);
+  restoreSelections(state, saved);
+  return state;
+};
+
+type DraftLoad = { recovered: boolean; state: BannerState };
+
+const readDraft = (): DraftLoad => {
+  const raw = readStorage(DRAFT_KEY);
+  if (!raw) return { recovered: false, state: INITIAL_STATE };
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return !isRecord(parsed) ||
+      parsed['version'] !== DRAFT_VERSION ||
+      !isRecord(parsed['state'])
+      ? { recovered: false, state: INITIAL_STATE }
+      : { recovered: true, state: restoreBannerState(parsed['state']) };
+  } catch {
+    return { recovered: false, state: INITIAL_STATE };
+  }
+};
+
 const bannerReducer = (
   state: BannerState,
   action: BannerAction,
 ): BannerState => {
   switch (action.type) {
+    case 'RESET':
+      return { ...INITIAL_STATE };
     case 'SET_ACCENT_TEXT':
       return { ...state, accentText: action.value };
     case 'SET_BANNER_THEME':
@@ -99,9 +226,37 @@ const bannerReducer = (
 
 export const useBannerState = (): {
   readonly actions: BannerActions;
+  readonly clearDraft: () => void;
+  readonly draftRecovered: boolean;
   readonly state: BannerState;
+  readonly storageAvailable: boolean;
 } => {
-  const [state, dispatch] = useReducer(bannerReducer, INITIAL_STATE);
+  const [initialDraft] = useState(readDraft);
+  const [state, dispatch] = useReducer(bannerReducer, initialDraft.state);
+  const [draftRecovered, setDraftRecovered] = useState(initialDraft.recovered);
+  const [storageAvailable, setStorageAvailable] = useState(true);
+  const skipNextSave = useRef(false);
+
+  useEffect(() => {
+    if (skipNextSave.current) {
+      skipNextSave.current = false;
+      return;
+    }
+    setStorageAvailable(
+      writeStorage(
+        DRAFT_KEY,
+        JSON.stringify({ state, version: DRAFT_VERSION }),
+      ),
+    );
+  }, [state]);
+
+  const clearDraft = useCallback(() => {
+    const removed = removeStorage(DRAFT_KEY);
+    skipNextSave.current = removed;
+    dispatch({ type: 'RESET' });
+    setDraftRecovered(false);
+    setStorageAvailable(removed);
+  }, []);
 
   const actions: BannerActions = {
     setAccentText: useCallback((value: string) => {
@@ -151,5 +306,5 @@ export const useBannerState = (): {
     }, []),
   };
 
-  return { actions, state };
+  return { actions, clearDraft, draftRecovered, state, storageAvailable };
 };

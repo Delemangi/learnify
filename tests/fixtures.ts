@@ -11,7 +11,7 @@ export const test = base.extend<{ networkGuard: undefined }>({
       page.on('console', (message) => {
         if (message.type() === 'error') errors.push(message.text());
       });
-      // Keep font stylesheets same-origin so html-to-image can read cssRules.
+      // Local, licensed font bytes keep export hermetic without falling back to system fonts.
       await page.addInitScript(() => {
         const localizeFonts = () => {
           for (const link of document.querySelectorAll(
@@ -33,17 +33,26 @@ export const test = base.extend<{ networkGuard: undefined }>({
       await page.route('**/*', async (route) => {
         const url = new URL(route.request().url());
         if (
-          url.pathname === '/__test-fonts.css' &&
-          url.origin === 'http://127.0.0.1:4183'
+          (url.pathname === '/__test-fonts.css' &&
+            url.origin === 'http://127.0.0.1:4183') ||
+          url.hostname === 'fonts.googleapis.com'
         ) {
-          await route.fulfill({ body: '', contentType: 'text/css' });
+          await route.fulfill({
+            contentType: 'text/css',
+            path: 'tests/assets/fonts.css',
+          });
+        } else if (
+          url.origin === 'http://127.0.0.1:4183' &&
+          /^\/__test-fonts\/montserrat-(?:cyrillic|latin)\.woff2$/u.test(
+            url.pathname,
+          )
+        ) {
+          await route.fulfill({
+            contentType: 'font/woff2',
+            path: `tests/assets/${url.pathname.split('/').at(-1)}`,
+          });
         } else if (url.origin === 'http://127.0.0.1:4183') {
           await route.continue();
-        } else if (url.hostname === 'fonts.googleapis.com') {
-          await route.fulfill({
-            body: '',
-            contentType: 'text/css',
-          });
         } else if (
           url.href ===
           'https://discord.com/api/guilds/1558165639284129835/widget.json'
