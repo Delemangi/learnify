@@ -50,14 +50,20 @@ export const CoursePopover = ({
     const margin = 12;
     const below = panelPosition.top;
     const above = panelPosition.anchorTop - bounds.height - margin;
-    const top =
-      below + bounds.height <= globalThis.innerHeight - margin
-        ? below
-        : Math.max(margin, above);
+    const preferredTop =
+      below + bounds.height > globalThis.innerHeight - margin && above >= margin
+        ? above
+        : below;
+    const maxTop = Math.max(
+      margin,
+      globalThis.innerHeight - bounds.height - margin,
+    );
+    const top = Math.min(Math.max(preferredTop, margin), maxTop);
     const halfWidth = bounds.width / 2;
+    const maxLeft = globalThis.innerWidth - halfWidth - margin;
     const left = Math.min(
       Math.max(panelPosition.left, halfWidth + margin),
-      globalThis.innerWidth - halfWidth - margin,
+      maxLeft,
     );
 
     dialog.style.top = `${top}px`;
@@ -75,7 +81,7 @@ export const CoursePopover = ({
   return (
     <dialog
       aria-label={course.title}
-      className={`fixed inset-x-4 top-auto bottom-4 z-100 m-0 max-h-[min(80vh,42rem)] overflow-y-auto rounded-2xl border border-border/80 bg-card/95 p-4 text-left text-foreground shadow-[0_28px_70px_-36px_rgba(0,0,0,0.55)] backdrop:bg-black/20 backdrop:backdrop-blur-[1px] backdrop-blur-md transition-[opacity,transform] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[opacity,transform] ${isDesktop ? 'origin-top sm:inset-auto sm:w-80 sm:-translate-x-1/2' : 'origin-bottom'} dark:shadow-[0_28px_80px_-34px_rgba(0,0,0,0.82)] ${open ? 'translate-y-0 scale-100 opacity-100' : closedState}`}
+      className={`fixed inset-x-4 top-auto bottom-4 z-100 m-0 max-h-[min(80vh,calc(100vh-24px),42rem)] max-w-[calc(100vw-24px)] overflow-y-auto rounded-2xl border border-border/80 bg-card/95 p-4 text-left text-foreground shadow-[0_28px_70px_-36px_rgba(0,0,0,0.55)] backdrop:bg-black/20 backdrop:backdrop-blur-[1px] backdrop-blur-md transition-[opacity,transform] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[opacity,transform] ${isDesktop ? 'origin-top sm:inset-auto sm:w-80 sm:-translate-x-1/2' : 'origin-bottom'} dark:shadow-[0_28px_80px_-34px_rgba(0,0,0,0.82)] ${open ? 'translate-y-0 scale-100 opacity-100' : closedState}`}
       id={panelId}
       onCancel={(event) => {
         event.preventDefault();

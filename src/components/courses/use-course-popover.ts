@@ -81,6 +81,38 @@ export const useCoursePopover = () => {
     };
   }, [mounted]);
 
+  useEffect(() => {
+    let restoreScrollStyles = () => {};
+
+    if (mounted) {
+      const body = document.body;
+      const root = document.documentElement;
+      const previousBodyOverflow = body.style.overflow;
+      const previousRootOverflow = root.style.overflow;
+      const previousBodyPaddingRight = body.style.paddingRight;
+      const scrollbarWidth = globalThis.innerWidth - root.clientWidth;
+      const bodyPaddingRight = Number.parseFloat(
+        globalThis.getComputedStyle(body).paddingRight,
+      );
+
+      root.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${bodyPaddingRight + scrollbarWidth}px`;
+      }
+
+      restoreScrollStyles = () => {
+        root.style.overflow = previousRootOverflow;
+        body.style.overflow = previousBodyOverflow;
+        body.style.paddingRight = previousBodyPaddingRight;
+      };
+    }
+
+    return () => {
+      restoreScrollStyles();
+    };
+  }, [mounted]);
+
   useEffect(
     () => () => {
       if (closeTimeoutRef.current !== null) {

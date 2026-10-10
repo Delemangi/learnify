@@ -11,6 +11,9 @@ theme persistence/action labels, denied storage, unknown-route recovery, course
 keyboard focus, draft recovery/validation/reset, Markdown sanitization and PNG
 downloads. PNG signature and IHDR dimensions cover all four presets and mobile;
 controlled font-readiness failure verifies pending/duplicate/retry behavior.
+404 contact recovery must actually scroll to the contact section. Course-modal
+tests cover backdrop wheel locking, prior overflow restoration and viewport
+clamping after programmatic scrolling.
 No screenshot baselines are used. `npm run check` also checks test TypeScript.
 
 Google Fonts stylesheet links are localized to same-origin, licensed Montserrat

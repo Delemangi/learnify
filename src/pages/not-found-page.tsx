@@ -34,6 +34,20 @@ export const NotFoundPage = () => (
           </Link>
           <Link
             className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            onClick={() => {
+              let framesLeft = 120;
+              const scrollWhenReady = () => {
+                const contact = document.querySelector('#contact');
+                if (contact) {
+                  contact.scrollIntoView({ block: 'start' });
+                } else if (framesLeft > 0) {
+                  framesLeft -= 1;
+                  globalThis.requestAnimationFrame(scrollWhenReady);
+                }
+              };
+
+              globalThis.requestAnimationFrame(scrollWhenReady);
+            }}
             to="/#contact"
           >
             Контакт

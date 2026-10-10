@@ -1,6 +1,10 @@
 import { expect } from '@playwright/test';
 
-import { assertLocalFontLoaded, assertPng } from './browser-helpers';
+import {
+  assertDialogInViewport,
+  assertLocalFontLoaded,
+  assertPng,
+} from './browser-helpers';
 import { test } from './fixtures';
 
 test('theme toggles root class and persists across reload', async ({
@@ -62,6 +66,104 @@ test('course dialog opens and closes with Escape and an outside click', async ({
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(course).toHaveAttribute('aria-expanded', 'false');
   await expect(course).toBeFocused();
+});
+
+test('course modal locks backdrop wheel scrolling and restores previous overflow on close', async ({
+  page,
+}) => {
+  await page.goto('/');
+  // Non-empty styles ensure cleanup restores previous values rather than just clearing them.
+  const previousOverflow = await page.evaluate(() => {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'visible';
+    return {
+      body: document.body.style.overflow,
+      root: document.documentElement.style.overflow,
+    };
+  });
+  const course = page.locator('button[aria-haspopup="dialog"]').first();
+  await course.click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await assertDialogInViewport(dialog);
+  const initialScroll = await page.evaluate(() => scrollY);
+  await page.mouse.move(10, 10);
+  await page.mouse.wheel(0, 2_000);
+  // Wheel dispatch returns before scrolling finishes. Sample subsequent rendering frames
+  // rather than letting an immediate equality assertion falsely pass before a scroll.
+  const scrollSamples = await page.evaluate(async () => {
+    const samples: number[] = [];
+    for (let frame = 0; frame < 12; frame += 1) {
+      const { promise, resolve } = Promise.withResolvers<number>();
+      requestAnimationFrame(() => {
+        resolve(scrollY);
+      });
+      samples.push(await promise);
+    }
+    return samples;
+  });
+  expect(scrollSamples.every((sample) => sample === initialScroll)).toBe(true);
+  await assertDialogInViewport(dialog);
+  await expect(
+    dialog.getByRole('button', { exact: true, name: 'Затвори' }),
+  ).toBeInViewport();
+  await expect
+    .poll(() =>
+      dialog.evaluate((element) => element.contains(document.activeElement)),
+    )
+    .toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(course).toBeFocused();
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        body: document.body.style.overflow,
+        root: document.documentElement.style.overflow,
+      })),
+    )
+    .toEqual(previousOverflow);
+  const afterClose = await page.evaluate(() => scrollY);
+  await page.mouse.move(10, 10);
+  await page.mouse.wheel(0, 2_000);
+  await expect
+    .poll(() => page.evaluate(() => scrollY))
+    .toBeGreaterThan(afterClose);
+});
+
+test('course modal stays in the viewport even when its anchor is scrolled off screen', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.locator('button[aria-haspopup="dialog"]').first().click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await assertDialogInViewport(dialog);
+  // CSS overflow locks wheel scrolling, not imperative scrollTo; exercise positioning separately.
+  await page.evaluate(async () => {
+    scrollBy({ behavior: 'instant', top: 2_000 });
+    for (let frame = 0; frame < 2; frame += 1) {
+      const { promise, resolve } = Promise.withResolvers<undefined>();
+      requestAnimationFrame(() => {
+        resolve(undefined);
+      });
+      await promise;
+    }
+  });
+  await expect
+    .poll(() =>
+      page
+        .locator('button[aria-haspopup="dialog"]')
+        .first()
+        .evaluate((element) => element.getBoundingClientRect().bottom),
+    )
+    .toBeLessThan(0);
+  await assertDialogInViewport(dialog);
+  await expect(
+    dialog.getByRole('button', { exact: true, name: 'Затвори' }),
+  ).toBeInViewport();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
 });
 
 test('Markdown edits retain headings, lists, rules and safe links', async ({

@@ -102,3 +102,19 @@ test('unknown SPA paths show a 404 with working home recovery', async ({
     ).toBeHidden();
   }
 });
+
+test('404 contact recovery performs the native hash jump after landing loads', async ({
+  page,
+}) => {
+  await page.goto('/invalid-contact-route');
+  await expect(
+    page.getByRole('heading', { name: 'Оваа страница не ја најдовме.' }),
+  ).toBeVisible();
+  await page
+    .getByRole('main')
+    .getByRole('link', { exact: true, name: 'Контакт' })
+    .click();
+  await expect(page).toHaveURL('/#contact');
+  await expect(page.locator('#contact')).toBeInViewport();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
+});

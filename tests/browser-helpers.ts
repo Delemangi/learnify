@@ -1,6 +1,7 @@
 import {
   type Download,
   expect,
+  type Locator,
   type Page,
   type TestInfo,
 } from '@playwright/test';
@@ -74,4 +75,20 @@ export const confirmDraftReset = async (page: Page) => {
     .getByRole('group', { name: 'Потврда за ресетирање' })
     .getByRole('button', { exact: true, name: 'Да, ресетирај' })
     .click();
+};
+
+export const assertDialogInViewport = async (dialog: Locator) => {
+  await expect
+    .poll(() =>
+      dialog.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        return (
+          bounds.top >= 0 &&
+          bounds.left >= 0 &&
+          bounds.bottom <= innerHeight &&
+          bounds.right <= innerWidth
+        );
+      }),
+    )
+    .toBe(true);
 };
