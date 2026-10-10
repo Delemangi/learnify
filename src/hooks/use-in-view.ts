@@ -7,16 +7,16 @@ export const useInView = (options?: IntersectionObserverInit) => {
   useEffect(() => {
     const el = ref.current;
     if (!el) {
-      // eslint-disable-next-line unicorn/no-useless-undefined
+      // eslint-disable-next-line unicorn/no-useless-undefined -- An explicit undefined documents that no cleanup is needed without an element.
       return undefined;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          setInView(true);
-          observer.unobserve(el);
-        }
+        if (!entry?.isIntersecting) return;
+
+        setInView(true);
+        observer.unobserve(el);
       },
       { threshold: 0.1, ...options },
     );

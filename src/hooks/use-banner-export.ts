@@ -26,20 +26,17 @@ export const useBannerExport = (
       link.href = dataUrl;
       link.click();
     } catch (error: unknown) {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console -- Keep export failures visible for debugging.
       console.error(error);
     }
   }, [previewRef, selectedSize]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        handleExport().catch((error: unknown) => {
-          // eslint-disable-next-line no-console
-          console.error('Export failed:', error);
-        });
-      }
+      if (!(e.ctrlKey || e.metaKey) || e.key !== 's') return;
+
+      e.preventDefault();
+      void handleExport();
     };
     globalThis.addEventListener('keydown', handleKeyDown);
     return () => {
