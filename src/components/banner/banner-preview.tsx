@@ -150,7 +150,7 @@ export const BannerPreview = ({
           className={`banner-content text-foreground ${
             textAlign === 'left' ? 'text-left w-full' : 'text-center'
           }`}
-          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- Existing Markdown HTML is not sanitized in this component.
+          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- Rendered Markdown is sanitized with DOMPurify before insertion.
           dangerouslySetInnerHTML={{ __html: contentHtml }}
           style={{ fontSize: `${baseFontSize}px` }}
         />
