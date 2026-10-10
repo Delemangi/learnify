@@ -16,6 +16,26 @@ const eslintConfig = [
   prettier,
   perfectionist,
   {
+    files: ['playwright.config.ts', 'tests/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: './tests/tsconfig.json',
+        projectService: false,
+      },
+    },
+    rules: {
+      // Browser-evaluated callbacks cannot capture module-scope regex constants.
+      'e18e/prefer-static-regex': 'off',
+    },
+  },
+  {
+    files: ['playwright.config.ts'],
+    rules: {
+      // Playwright's declarative config is created by its official factory.
+      'unicorn/no-top-level-side-effects': 'off',
+    },
+  },
+  {
     files: ['src/**/*.{ts,tsx}'],
     rules: {
       // Preserve stable data-module aliases without banning other barrels.

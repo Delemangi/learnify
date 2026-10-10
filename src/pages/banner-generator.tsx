@@ -1,3 +1,4 @@
+import domPurify from 'dompurify';
 import { marked } from 'marked';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -34,7 +35,10 @@ export const BannerGenerator = () => {
   const { handleExport } = useBannerExport(previewRef, state.selectedSize);
 
   const contentHtml = useMemo(
-    () => marked.parse(state.content, { async: false }),
+    () =>
+      domPurify.sanitize(marked.parse(state.content, { async: false }), {
+        USE_PROFILES: { html: true },
+      }),
     [state.content],
   );
   const bgGradient = getBgGradient(state.bannerTheme, state.selectedHue);
