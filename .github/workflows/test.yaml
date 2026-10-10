@@ -12,6 +12,6 @@ jobs:
     uses: Delemangi/.github/.github/workflows/playwright.yaml@main
     with:
       node-version: '24'
-      build-command: npm run build
+      build-command: npm run check && npm run build
       test-command: npm run test:e2e
       artifact-name: browser-test-failure
