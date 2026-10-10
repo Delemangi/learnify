@@ -9,8 +9,7 @@ permissions:
 
 jobs:
   test:
-    # Pin to shared PR #3 until it merges; then switch this ref to @main.
-    uses: Delemangi/.github/.github/workflows/playwright.yaml@9751177fed448a5d8e147bcfd1ecf3e049566642
+    uses: Delemangi/.github/.github/workflows/playwright.yaml@main
     with:
       node-version: '24'
       build-command: npm run build
