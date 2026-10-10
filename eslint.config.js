@@ -7,7 +7,6 @@ import {
   typescript,
 } from 'eslint-config-imperium';
 
-// Temporary: keep package.json's root peer override until jsx-a11y supports ESLint 10.
 const eslintConfig = [
   { ignores: ['dist', 'vite.config.ts'] },
   ...base,
