@@ -8,7 +8,7 @@ import {
 } from 'eslint-config-imperium';
 
 const eslintConfig = [
-  { ignores: ['dist', 'vite.config.ts'] },
+  { ignores: ['dist', 'playwright-report', 'test-results', 'vite.config.ts'] },
   ...base,
   browser,
   react,

@@ -21,8 +21,10 @@ export const BannerGenerator = () => {
     'controls',
   );
   const [previewZoom, setPreviewZoom] = useState(100);
+  const [resetConfirmationOpen, setResetConfirmationOpen] = useState(false);
 
-  const { actions, state } = useBannerState();
+  const { actions, clearDraft, draftRecovered, state, storageAvailable } =
+    useBannerState();
 
   const previewRef = useRef<HTMLDivElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +34,8 @@ export const BannerGenerator = () => {
     loadGoogleFont(state.selectedFont);
   }, [state.selectedFont]);
 
-  const { handleExport } = useBannerExport(previewRef, state.selectedSize);
+  const { exportError, exportSuccess, handleExport, isExporting } =
+    useBannerExport(previewRef, state.selectedSize);
 
   const contentHtml = useMemo(
     () =>
@@ -82,6 +85,55 @@ export const BannerGenerator = () => {
           <div
             className={`${activeTab === 'controls' ? 'flex' : 'hidden'} h-full flex-col overflow-hidden lg:flex`}
           >
+            {draftRecovered && (
+              <div className="flex items-start justify-between gap-3 border-b border-border bg-muted/60 px-4 py-3 text-sm">
+                <output className="block text-muted-foreground">
+                  Продолжувате со зачуваниот нацрт.
+                </output>
+                {resetConfirmationOpen ? (
+                  <fieldset className="flex min-w-0 flex-wrap items-center justify-end gap-2 border-0 p-0">
+                    <legend className="sr-only">Потврда за ресетирање</legend>
+                    <span className="text-muted-foreground">
+                      Да се отфрли нацртот?
+                    </span>
+                    <button
+                      className="text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      onClick={() => {
+                        clearDraft();
+                        setResetConfirmationOpen(false);
+                      }}
+                      type="button"
+                    >
+                      Да, ресетирај
+                    </button>
+                    <button
+                      className="text-muted-foreground underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      onClick={() => {
+                        setResetConfirmationOpen(false);
+                      }}
+                      type="button"
+                    >
+                      Откажи
+                    </button>
+                  </fieldset>
+                ) : (
+                  <button
+                    className="shrink-0 text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    onClick={() => {
+                      setResetConfirmationOpen(true);
+                    }}
+                    type="button"
+                  >
+                    Ресетирај
+                  </button>
+                )}
+              </div>
+            )}
+            {!storageAvailable && (
+              <output className="block border-b border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
+                Нацртот не може да се зачува на овој уред.
+              </output>
+            )}
             <BannerControlsPanel
               actions={actions}
               state={state}
@@ -95,7 +147,10 @@ export const BannerGenerator = () => {
               backgroundStyle={backgroundStyle}
               baseFontSize={baseFontSize}
               contentHtml={contentHtml}
+              exportError={exportError}
+              exportSuccess={exportSuccess}
               handleExport={handleExport}
+              isExporting={isExporting}
               previewContainerRef={previewContainerRef}
               previewRef={previewRef}
               previewZoom={previewZoom}

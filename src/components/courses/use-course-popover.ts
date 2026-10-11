@@ -13,7 +13,6 @@ export const useCoursePopover = () => {
   const [panelPosition, setPanelPosition] = useState<PanelPosition>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDialogElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const close = () => {
     if (openFrameRef.current !== null) {
@@ -26,8 +25,10 @@ export const useCoursePopover = () => {
 
     setOpen(false);
     closeTimeoutRef.current = globalThis.setTimeout(() => {
+      if (panelRef.current?.open) panelRef.current.close();
       setMounted(false);
       setPanelPosition(null);
+      buttonRef.current?.focus();
     }, POPOVER_ANIMATION_MS);
   };
 
@@ -60,6 +61,7 @@ export const useCoursePopover = () => {
       }
 
       setPanelPosition({
+        anchorTop: rect.top,
         left: rect.left + rect.width / 2,
         top: rect.bottom + 12,
       });
@@ -80,33 +82,34 @@ export const useCoursePopover = () => {
   }, [mounted]);
 
   useEffect(() => {
-    if (!mounted) {
-      return () => {};
+    let restoreScrollStyles = () => {};
+
+    if (mounted) {
+      const body = document.body;
+      const root = document.documentElement;
+      const previousBodyOverflow = body.style.overflow;
+      const previousRootOverflow = root.style.overflow;
+      const previousBodyPaddingRight = body.style.paddingRight;
+      const scrollbarWidth = globalThis.innerWidth - root.clientWidth;
+      const bodyPaddingRight = Number.parseFloat(
+        globalThis.getComputedStyle(body).paddingRight,
+      );
+
+      root.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${bodyPaddingRight + scrollbarWidth}px`;
+      }
+
+      restoreScrollStyles = () => {
+        root.style.overflow = previousRootOverflow;
+        body.style.overflow = previousBodyOverflow;
+        body.style.paddingRight = previousBodyPaddingRight;
+      };
     }
 
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
-
-      if (
-        !wrapperRef.current?.contains(target) &&
-        !panelRef.current?.contains(target)
-      ) {
-        close();
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        close();
-      }
-    };
-
-    document.addEventListener('pointerdown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
+      restoreScrollStyles();
     };
   }, [mounted]);
 
@@ -134,6 +137,5 @@ export const useCoursePopover = () => {
     panelPosition,
     panelRef,
     toggle,
-    wrapperRef,
   };
 };
