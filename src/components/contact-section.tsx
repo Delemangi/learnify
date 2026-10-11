@@ -53,7 +53,7 @@ const CONTACT_METHODS: ContactMethod[] = [
     href: 'https://discord.gg/ArSwaDE4re',
     icon: DiscordIcon,
     label: 'Придружи се',
-    title: 'Дискорд',
+    title: 'Discord',
   },
   {
     delay: 500,
