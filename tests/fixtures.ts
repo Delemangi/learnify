@@ -1,9 +1,28 @@
 import { test as base, expect } from '@playwright/test';
+import { join } from 'node:path';
+import process from 'node:process';
+
+const FONT_CSS = `
+@font-face {
+  font-family: 'Montserrat'; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url('http://127.0.0.1:4183/__test-fonts/montserrat-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+@font-face {
+  font-family: 'Montserrat'; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url('http://127.0.0.1:4183/__test-fonts/montserrat-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}`;
 
 // All browser requests are local or explicitly stubbed; unexpected dependencies fail.
 export const test = base.extend<{ networkGuard: undefined }>({
   networkGuard: [
     async ({ page }, use) => {
+      const { LEARNIFY_TEST_FONTS_DIR: fontDirectory } = process.env;
+      if (!fontDirectory)
+        throw new Error(
+          'Font global setup did not provide its runtime directory',
+        );
       const errors: string[] = [];
       page.on('pageerror', (error) => {
         errors.push(error.message);
@@ -11,7 +30,7 @@ export const test = base.extend<{ networkGuard: undefined }>({
       page.on('console', (message) => {
         if (message.type() === 'error') errors.push(message.text());
       });
-      // Local, licensed font bytes keep export hermetic without falling back to system fonts.
+      // Fonts fetched once by global setup are served locally, without system-font fallback.
       await page.addInitScript(() => {
         const localizeFonts = () => {
           for (const link of document.querySelectorAll(
@@ -38,8 +57,8 @@ export const test = base.extend<{ networkGuard: undefined }>({
           url.hostname === 'fonts.googleapis.com'
         ) {
           await route.fulfill({
+            body: FONT_CSS,
             contentType: 'text/css',
-            path: 'tests/assets/fonts.css',
           });
         } else if (
           url.origin === 'http://127.0.0.1:4183' &&
@@ -49,7 +68,10 @@ export const test = base.extend<{ networkGuard: undefined }>({
         ) {
           await route.fulfill({
             contentType: 'font/woff2',
-            path: `tests/assets/${url.pathname.split('/').at(-1)}`,
+            path: join(
+              fontDirectory,
+              url.pathname.slice('/__test-fonts/'.length),
+            ),
           });
         } else if (url.origin === 'http://127.0.0.1:4183') {
           await route.continue();

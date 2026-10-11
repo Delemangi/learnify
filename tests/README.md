@@ -16,10 +16,25 @@ tests cover backdrop wheel locking, prior overflow restoration and viewport
 clamping after programmatic scrolling.
 No screenshot baselines are used. `npm run check` also checks test TypeScript.
 
-Google Fonts stylesheet links are localized to same-origin, licensed Montserrat
-WOFF2 fixtures with real Latin/Cyrillic loading and export (see `assets/README.md`).
-This does not verify live Google Fonts, other font families or visual fidelity.
-Discord's
-widget response is a fixed test fixture, not a claim about live member counts.
+Internet access is required at suite startup. `font-setup.ts` fetches the two
+fixed Montserrat v31 Latin/Cyrillic WOFF2 URLs below once per suite (each request
+has a 20-second timeout, with at most two retries). HTTP status, WOFF2 signature
+and file length are validated; failures stop the suite, with no empty-CSS or
+system-font fallback. No font binaries or license files are stored in this repo.
+
+- https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2
+- https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2
+- Source stylesheet: https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap&subset=cyrillic
+- Upstream SIL Open Font License: https://github.com/google/fonts/blob/main/ofl/montserrat/OFL.txt
+
+Setup creates a unique `learnify-test-fonts-*` directory in the approved local
+Windows temporary area, or the OS temp directory in CI. Workers receive its
+path through Playwright's setup environment. Teardown deletes only that run's
+directory, including after setup download failures. There is no persistent cache.
+Browser font requests are served same-origin from the downloaded files, covering
+real Latin/Cyrillic decoding and PNG export without live stylesheet/CORS coupling.
+This does not verify the production Google Fonts integration, other font families
+or visual fidelity. Discord's widget response remains a fixed test fixture,
+not a claim about live member counts.
 Other external requests and application errors fail tests. Failure reports,
 traces and screenshots are in ignored `playwright-report/` and `test-results/`.
