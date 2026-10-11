@@ -87,18 +87,12 @@ export const BannerGenerator = () => {
           >
             {draftRecovered && (
               <div className="flex items-start justify-between gap-3 border-b border-border bg-muted/60 px-4 py-3 text-sm">
-                <p
-                  className="text-muted-foreground"
-                  role="status"
-                >
+                <output className="block text-muted-foreground">
                   Продолжувате со зачуваниот нацрт.
-                </p>
+                </output>
                 {resetConfirmationOpen ? (
-                  <div
-                    aria-label="Потврда за ресетирање"
-                    className="flex flex-wrap items-center justify-end gap-2"
-                    role="group"
-                  >
+                  <fieldset className="flex min-w-0 flex-wrap items-center justify-end gap-2 border-0 p-0">
+                    <legend className="sr-only">Потврда за ресетирање</legend>
                     <span className="text-muted-foreground">
                       Да се отфрли нацртот?
                     </span>
@@ -121,7 +115,7 @@ export const BannerGenerator = () => {
                     >
                       Откажи
                     </button>
-                  </div>
+                  </fieldset>
                 ) : (
                   <button
                     className="shrink-0 text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -136,12 +130,9 @@ export const BannerGenerator = () => {
               </div>
             )}
             {!storageAvailable && (
-              <p
-                className="border-b border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground"
-                role="status"
-              >
+              <output className="block border-b border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
                 Нацртот не може да се зачува на овој уред.
-              </p>
+              </output>
             )}
             <BannerControlsPanel
               actions={actions}
