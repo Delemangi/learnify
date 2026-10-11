@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 
 import {
-  assertLocalFontLoaded,
+  assertGoogleFontsLoaded,
   assertPng,
   blockStorage,
   confirmDraftReset,
@@ -222,7 +222,7 @@ test('export pending guard blocks duplicates, reports failure and permits retry'
   page,
 }, testInfo) => {
   await page.goto('/banner');
-  await assertLocalFontLoaded(page);
+  await assertGoogleFontsLoaded(page);
   let downloads = 0;
   page.on('download', () => {
     downloads += 1;

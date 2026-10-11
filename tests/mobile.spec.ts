@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 
-import { assertLocalFontLoaded, assertPng } from './browser-helpers';
+import { assertGoogleFontsLoaded, assertPng } from './browser-helpers';
 import { test } from './fixtures';
 
 test('mobile menu exposes state and closes after contact navigation', async ({
@@ -34,7 +34,7 @@ test('mobile preview exports the selected PNG dimensions', async ({
   await expect(
     page.getByRole('heading', { name: 'Mobile banner' }),
   ).toBeVisible();
-  await assertLocalFontLoaded(page);
+  await assertGoogleFontsLoaded(page);
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Преземи PNG' }).click();
   await assertPng(await download, testInfo, {

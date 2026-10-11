@@ -53,20 +53,32 @@ export const assertPng = async (
   expect(png.readUInt32BE(20)).toBe(height);
 };
 
-export const assertLocalFontLoaded = async (page: Page) => {
+export const assertGoogleFontsLoaded = async (page: Page) => {
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        [...document.fonts].some((font) => font.family === 'Montserrat'),
+      ),
+    )
+    .toBe(true);
   const fonts = await page.evaluate(async () => {
-    const faces = await document.fonts.load(
-      '700 20px Montserrat',
-      'Learnify Прва',
+    await document.fonts.ready;
+    const latin = await document.fonts.load('700 20px Montserrat', 'Learnify');
+    const cyrillic = await document.fonts.load('700 20px Montserrat', 'Прва');
+    return [latin, cyrillic].map((faces) =>
+      faces.map((font) => ({ family: font.family, status: font.status })),
     );
-    return faces.map((font) => ({ family: font.family, status: font.status }));
   });
-  expect(fonts.length).toBeGreaterThanOrEqual(2);
-  expect(
-    fonts.every(
-      (font) => font.family === 'Montserrat' && font.status === 'loaded',
-    ),
-  ).toBe(true);
+  // Google's subset layout may change; require actual loaded faces for each script,
+  // not a particular number of files or a local fixture's partitioning.
+  for (const faces of fonts) {
+    expect(faces.length).toBeGreaterThan(0);
+    expect(
+      faces.every(
+        (font) => font.family === 'Montserrat' && font.status === 'loaded',
+      ),
+    ).toBe(true);
+  }
 };
 
 export const confirmDraftReset = async (page: Page) => {

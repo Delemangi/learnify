@@ -6,7 +6,6 @@ const { CI: ci } = process.env;
 export default defineConfig({
   forbidOnly: Boolean(ci),
   fullyParallel: false,
-  globalSetup: './tests/font-setup.ts',
   globalTimeout: 240_000,
   projects: [
     {

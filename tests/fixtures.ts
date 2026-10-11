@@ -1,79 +1,47 @@
 import { test as base, expect } from '@playwright/test';
-import { join } from 'node:path';
-import process from 'node:process';
 
-const FONT_CSS = `
-@font-face {
-  font-family: 'Montserrat'; font-style: normal; font-weight: 100 900; font-display: swap;
-  src: url('http://127.0.0.1:4183/__test-fonts/montserrat-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+2000-206F;
-}
-@font-face {
-  font-family: 'Montserrat'; font-style: normal; font-weight: 100 900; font-display: swap;
-  src: url('http://127.0.0.1:4183/__test-fonts/montserrat-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}`;
+const CSS_RULES_ERROR =
+  "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules";
+const MONTSERRAT_CSS =
+  'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap&subset=cyrillic';
 
-// All browser requests are local or explicitly stubbed; unexpected dependencies fail.
+// Google Fonts is a live integration; Discord alone is stubbed.
 export const test = base.extend<{ networkGuard: undefined }>({
   networkGuard: [
     async ({ page }, use) => {
-      const { LEARNIFY_TEST_FONTS_DIR: fontDirectory } = process.env;
-      if (!fontDirectory)
-        throw new Error(
-          'Font global setup did not provide its runtime directory',
-        );
       const errors: string[] = [];
+      let inliningWarnings = 0;
+      let googleRuleWarnings = 0;
       page.on('pageerror', (error) => {
         errors.push(error.message);
       });
       page.on('console', (message) => {
-        if (message.type() === 'error') errors.push(message.text());
-      });
-      // Fonts fetched once by global setup are served locally, without system-font fallback.
-      await page.addInitScript(() => {
-        const localizeFonts = () => {
-          for (const link of document.querySelectorAll(
-            'link[rel="stylesheet"]',
-          )) {
-            if (
-              link instanceof HTMLLinkElement &&
-              link.href.startsWith('https://fonts.googleapis.com/')
-            ) {
-              link.href = '/__test-fonts.css';
-            }
-          }
-        };
-        new MutationObserver(localizeFonts).observe(document, {
-          childList: true,
-          subtree: true,
-        });
+        if (message.type() !== 'error') return;
+        const text = message.text();
+        const newline = text.indexOf('\n');
+        const firstLine = newline === -1 ? text : text.slice(0, newline);
+        // Verified html-to-image catch/fallback diagnostics. Keep the generic warning
+        // only when paired with the exact Google-font-specific warning below.
+        if (firstLine === `Error inlining remote css file ${CSS_RULES_ERROR}`) {
+          inliningWarnings += 1;
+        } else if (
+          firstLine ===
+          `Error while reading CSS rules from ${MONTSERRAT_CSS} ${CSS_RULES_ERROR}`
+        ) {
+          googleRuleWarnings += 1;
+        } else {
+          errors.push(message.text());
+        }
       });
       await page.route('**/*', async (route) => {
         const url = new URL(route.request().url());
         if (
-          (url.pathname === '/__test-fonts.css' &&
-            url.origin === 'http://127.0.0.1:4183') ||
-          url.hostname === 'fonts.googleapis.com'
+          [
+            'http://127.0.0.1:4183',
+            'https://fonts.googleapis.com',
+            'https://fonts.gstatic.com',
+          ].includes(url.origin)
         ) {
-          await route.fulfill({
-            body: FONT_CSS,
-            contentType: 'text/css',
-          });
-        } else if (
-          url.origin === 'http://127.0.0.1:4183' &&
-          /^\/__test-fonts\/montserrat-(?:cyrillic|latin)\.woff2$/u.test(
-            url.pathname,
-          )
-        ) {
-          await route.fulfill({
-            contentType: 'font/woff2',
-            path: join(
-              fontDirectory,
-              url.pathname.slice('/__test-fonts/'.length),
-            ),
-          });
-        } else if (url.origin === 'http://127.0.0.1:4183') {
           await route.continue();
         } else if (
           url.href ===
@@ -87,6 +55,10 @@ export const test = base.extend<{ networkGuard: undefined }>({
         }
       });
       await use(undefined);
+      expect(
+        inliningWarnings,
+        'Generic cssRules warnings must match the exact Google font warnings',
+      ).toBe(googleRuleWarnings);
       expect(
         errors,
         'No application errors or unexpected external requests',

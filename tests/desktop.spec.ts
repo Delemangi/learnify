@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 
 import {
   assertDialogInViewport,
-  assertLocalFontLoaded,
+  assertGoogleFontsLoaded,
   assertPng,
 } from './browser-helpers';
 import { test } from './fixtures';
@@ -242,7 +242,7 @@ test('PNG downloads work from the button and Ctrl+S', async ({
   page,
 }, testInfo) => {
   await page.goto('/banner');
-  await assertLocalFontLoaded(page);
+  await assertGoogleFontsLoaded(page);
   const presets = [
     { height: 1_080, label: 'Instagram Post', width: 1_080 },
     { height: 1_920, label: 'Instagram Story', width: 1_080 },
