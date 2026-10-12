@@ -21,7 +21,7 @@ test('promotion dialog appears on load, locks scrolling, and closes accessibly',
   await expect(dialog).toContainText(
     'Запиши се на Веб програмирање + Бази на податоци и добиј гратис Full-Stack курс!',
   );
-  await expect(dialog.locator('p span')).toHaveText([
+  await expect(dialog.locator('p span.font-bold')).toHaveText([
     '50% попуст',
     'гратис Full-Stack курс',
   ]);

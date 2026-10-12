@@ -32,9 +32,6 @@ export const PromotionDialog = () => {
     <dialog
       aria-label="Промоции"
       className="promotion-dialog"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) dialogRef.current?.close();
-      }}
       onClose={() => {
         setVisible(false);
       }}
@@ -49,7 +46,7 @@ export const PromotionDialog = () => {
                 className="h-4 w-4"
               />
             </span>
-            Промоции
+            <span>Промоции</span>
           </h2>
           <button
             aria-label="Затвори"
@@ -92,7 +89,7 @@ export const PromotionDialog = () => {
               <span className="font-bold text-primary">
                 гратис Full-Stack курс
               </span>
-              !
+              <span>!</span>
             </p>
           </article>
         </div>
