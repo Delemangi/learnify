@@ -31,13 +31,13 @@ export const PromotionDialog = () => {
   return (
     <dialog
       aria-label="Промоции"
-      className="promotion-dialog"
+      className="fixed inset-0 m-auto w-[min(38rem,calc(100vw-1.5rem))] max-w-none max-h-[calc(100dvh-1.5rem)] overflow-x-hidden overflow-y-auto overscroll-contain border-0 bg-transparent p-0 text-foreground [scrollbar-width:thin] backdrop:bg-[oklch(0.12_0.015_45_/_0.48)] backdrop:backdrop-blur-[5px] backdrop:animate-promotion-backdrop-in open:animate-promotion-panel-in motion-reduce:open:animate-none motion-reduce:backdrop:animate-none"
       onClose={() => {
         setVisible(false);
       }}
       ref={dialogRef}
     >
-      <section className="promotion-dialog__panel rounded-2xl border border-primary/25 bg-card/95 p-5 text-foreground shadow-[0_28px_70px_-36px_rgba(0,0,0,0.55)] ring-1 ring-primary/10 backdrop-blur-md sm:p-6 dark:shadow-[0_28px_80px_-34px_rgba(0,0,0,0.82)]">
+      <section className="relative overflow-hidden rounded-2xl border border-primary/25 bg-card/95 p-5 text-foreground shadow-[0_28px_70px_-36px_rgba(0,0,0,0.55)] ring-1 ring-primary/10 backdrop-blur-md before:pointer-events-none before:absolute before:top-0 before:right-[12%] before:left-[12%] before:h-[3px] before:content-[''] before:bg-[linear-gradient(90deg,transparent,var(--primary),transparent)] before:shadow-[0_0_18px_color-mix(in_oklch,var(--primary)_75%,transparent)] before:opacity-90 sm:p-6 dark:shadow-[0_28px_80px_-34px_rgba(0,0,0,0.82)]">
         <div className="mb-5 grid grid-cols-[1fr_auto_1fr] items-center border-b border-border/60 pb-4">
           <h2 className="col-start-2 flex items-center gap-2.5 whitespace-nowrap text-xl font-bold tracking-tight text-foreground sm:text-2xl">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/12 text-primary">
@@ -64,7 +64,7 @@ export const PromotionDialog = () => {
           </button>
         </div>
         <div className="grid gap-3">
-          <article className="promotion-dialog__featured flex items-center gap-4 rounded-xl border border-primary/35 bg-primary/8 p-5 text-left sm:gap-5 sm:p-6">
+          <article className="flex items-center gap-4 rounded-xl border border-primary/35 bg-primary/8 bg-[radial-gradient(ellipse_at_100%_50%,color-mix(in_oklch,var(--primary)_15%,transparent),transparent_55%)] p-5 text-left sm:gap-5 sm:p-6">
             <div
               aria-hidden="true"
               className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary sm:h-14 sm:w-14"
