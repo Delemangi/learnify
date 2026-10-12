@@ -7,10 +7,65 @@ import {
 } from './browser-helpers';
 import { test } from './fixtures';
 
+test('promotion dialog appears on load, locks scrolling, and closes accessibly', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const dialog = page.getByRole('dialog', {
+    name: 'Промоции',
+  });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText(
+    'Искористи 50% попуст на курсот по Структурно програмирање!',
+  );
+  await expect(dialog).toContainText(
+    'Запиши се на Веб програмирање + Бази на податоци и добиј гратис Full-Stack курс!',
+  );
+  await expect(dialog.locator('p span')).toHaveText([
+    '50% попуст',
+    'гратис Full-Stack курс',
+  ]);
+  await expect(dialog.getByRole('button', { name: 'Затвори' })).toBeFocused();
+  await expect(page.locator('html')).toHaveCSS('overflow', 'hidden');
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+  await dialog.getByRole('button', { name: 'Затвори' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('html')).not.toHaveCSS('overflow', 'hidden');
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  await page.reload();
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});
+
+test('promotion dialog content and close button remain reachable in a short viewport', async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 401, width: 801 });
+  await page.goto('/');
+  const dialog = page.getByRole('dialog', {
+    name: 'Промоции',
+  });
+  await expect(dialog).toBeVisible();
+  const secondOffer = dialog.getByText(
+    'Запиши се на Веб програмирање + Бази на податоци и добиј гратис Full-Stack курс!',
+    { exact: true },
+  );
+  await secondOffer.scrollIntoViewIfNeeded();
+  await expect(secondOffer).toBeInViewport();
+  const close = dialog.getByRole('button', { name: 'Затвори' });
+  await close.scrollIntoViewIfNeeded();
+  await expect(close).toBeInViewport();
+  await close.click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('html')).not.toHaveCSS('overflow', 'hidden');
+});
+
 test('theme toggles root class and persists across reload', async ({
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   const root = page.locator('html');
   await expect(root).toHaveClass(/light/u);
   await page.getByRole('button', { name: 'Префрли на темна тема' }).click();
@@ -23,6 +78,7 @@ test('theme toggles root class and persists across reload', async ({
     .poll(() => page.evaluate(() => localStorage.getItem('learnify-theme')))
     .toBe('dark');
   await page.reload();
+  await page.getByRole('button', { name: 'Затвори' }).click();
   await expect(root).toHaveClass(/dark/u);
   await page.getByRole('button', { name: 'Префрли на светла тема' }).click();
   await expect(root).toHaveClass(/light/u);
@@ -36,6 +92,7 @@ test('course dialog opens and closes with Escape and an outside click', async ({
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   const course = page.locator('button[aria-haspopup="dialog"]').first();
   await course.focus();
   await course.press('Enter');
@@ -72,6 +129,10 @@ test('course modal locks backdrop wheel scrolling and restores previous overflow
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
+  await expect
+    .poll(() => page.evaluate(() => document.documentElement.style.overflow))
+    .toBe('');
   // Non-empty styles ensure cleanup restores previous values rather than just clearing them.
   const previousOverflow = await page.evaluate(() => {
     document.body.style.overflow = 'auto';
@@ -135,6 +196,7 @@ test('course modal stays in the viewport even when its anchor is scrolled off sc
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   await page.locator('button[aria-haspopup="dialog"]').first().click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();

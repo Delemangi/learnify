@@ -3,10 +3,28 @@ import { expect } from '@playwright/test';
 import { assertGoogleFontsLoaded, assertPng } from './browser-helpers';
 import { test } from './fixtures';
 
+test('promotion dialog is readable and dismissible on mobile', async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 667, width: 390 });
+  await page.goto('/');
+  const dialog = page.getByRole('dialog', { name: 'Промоции' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText('50% попуст', { exact: true })).toBeVisible();
+  await expect(
+    dialog.getByText('гратис Full-Stack курс', { exact: true }),
+  ).toBeVisible();
+  await dialog.getByRole('button', { name: 'Затвори' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('html')).not.toHaveCSS('overflow', 'hidden');
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+});
+
 test('mobile menu exposes state and closes after contact navigation', async ({
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   const header = page.getByRole('banner', { name: 'Главна навигација' });
   const open = header.getByRole('button', { name: 'Отвори мени' });
   await expect(open).toHaveAttribute('aria-expanded', 'false');

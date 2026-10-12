@@ -151,6 +151,76 @@
 }
 
 @layer utilities {
+  .promotion-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(38rem, calc(100vw - 1.5rem));
+    max-width: none;
+    max-height: calc(100dvh - 1.5rem);
+    margin: auto;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    color: var(--foreground);
+    background: transparent;
+    border: 0;
+  }
+
+  .promotion-dialog::backdrop {
+    background: oklch(0.12 0.015 45 / 0.48);
+    backdrop-filter: blur(5px);
+    animation: promotion-backdrop-in 180ms ease-out both;
+  }
+
+  .promotion-dialog[open] {
+    animation: promotion-panel-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .promotion-dialog__panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promotion-dialog__panel::before {
+    position: absolute;
+    top: 0;
+    right: 12%;
+    left: 12%;
+    height: 3px;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: 0 0 18px color-mix(in oklch, var(--primary) 75%, transparent);
+    opacity: 0.9;
+  }
+
+  .promotion-dialog__featured {
+    background-image: radial-gradient(
+      ellipse at 100% 50%,
+      color-mix(in oklch, var(--primary) 15%, transparent),
+      transparent 55%
+    );
+  }
+
+  @keyframes promotion-panel-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes promotion-backdrop-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .promotion-dialog[open],
+    .promotion-dialog::backdrop {
+      animation: none;
+    }
+  }
+
   .glass {
     @apply bg-card/50 backdrop-blur-xl;
     border: 1px solid var(--color-border);
