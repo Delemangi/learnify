@@ -7,6 +7,7 @@ for (const mode of ['getter', 'read'] as const) {
   test(`denied storage ${mode} does not prevent startup`, async ({ page }) => {
     await blockStorage(page, mode);
     await page.goto('/');
+    await page.getByRole('button', { name: 'Затвори' }).click();
     await expect(
       page.getByRole('banner', { name: 'Главна навигација' }),
     ).toBeVisible();
@@ -22,6 +23,7 @@ test('denied storage writes still permit in-memory theme changes', async ({
 }) => {
   await blockStorage(page, 'write');
   await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   await page.getByRole('button', { name: 'Префрли на темна тема' }).click();
   await expect(page.locator('html')).toHaveClass(/dark/u);
   await expect(page.locator('html')).not.toHaveClass(/light/u);
@@ -51,6 +53,7 @@ test('unknown SPA paths show a 404 with working home recovery', async ({
     .getByRole('link', { name: /почетн/iu })
     .click();
   await expect(page).toHaveURL('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
   await expect(page).toHaveTitle('Learnify.mk | Приватни часови за ФИНКИ');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
     'content',

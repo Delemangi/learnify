@@ -7,11 +7,13 @@ import { FaqSection } from '@/components/faq-section';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/hero';
 import { Navbar } from '@/components/navbar';
+import { PromotionDialog } from '@/components/promotion-dialog';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { SkipLink } from '@/components/skip-link';
 
 export const LandingPage = () => (
   <>
+    <PromotionDialog />
     <SkipLink
       href="#main"
       label="Прескокни до содржина"
