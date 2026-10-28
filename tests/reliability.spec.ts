@@ -3,6 +3,66 @@ import { expect } from '@playwright/test';
 import { blockStorage } from './browser-helpers';
 import { test } from './fixtures';
 
+test('reduced motion overrides Tailwind utilities and pseudo-elements', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Затвори' }).click();
+  await page.evaluate(() => {
+    const probe = document.createElement('div');
+    probe.id = 'reduced-motion-probe';
+    probe.className = 'transition-all duration-300 animate-spin';
+    const style = document.createElement('style');
+    // Keep probe styles layered so the app's global override wins.
+    style.textContent = `@layer utilities {
+      #reduced-motion-probe::before,
+      #reduced-motion-probe::after {
+        content: '';
+        transition: all 300ms;
+        animation: spin 1s linear infinite;
+      }
+    }`;
+    probe.append(style);
+    document.body.append(probe);
+  });
+
+  const readMotion = async () =>
+    page.locator('#reduced-motion-probe').evaluate((probe) =>
+      [null, '::before', '::after'].map((pseudo) => {
+        const style = getComputedStyle(probe, pseudo);
+        return {
+          animationDuration: Number.parseFloat(style.animationDuration),
+          animationIterationCount: style.animationIterationCount,
+          animationName: style.animationName,
+          transitionDuration: Number.parseFloat(style.transitionDuration),
+          transitionProperty: style.transitionProperty,
+        };
+      }),
+    );
+
+  await expect.poll(readMotion).toEqual(
+    Array.from({ length: 3 }, () => ({
+      animationDuration: 1,
+      animationIterationCount: 'infinite',
+      animationName: 'spin',
+      transitionDuration: 0.3,
+      transitionProperty: 'all',
+    })),
+  );
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(readMotion).toEqual(
+    Array.from({ length: 3 }, () => ({
+      animationDuration: 0.00001,
+      animationIterationCount: '1',
+      animationName: 'spin',
+      transitionDuration: 0.00001,
+      transitionProperty: 'all',
+    })),
+  );
+});
+
 for (const mode of ['getter', 'read'] as const) {
   test(`denied storage ${mode} does not prevent startup`, async ({ page }) => {
     await blockStorage(page, mode);

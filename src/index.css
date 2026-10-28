@@ -119,20 +119,6 @@
     scroll-behavior: smooth;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-      transition-duration: 0.01ms !important;
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-    }
-  }
-
   body {
     @apply bg-background text-foreground;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -308,18 +294,30 @@
   .hover\:paused:hover {
     animation-play-state: paused;
   }
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in-up {
-      animation: none;
-      opacity: 1;
-    }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-    .animate-glow-drift,
-    .animate-glow-drift-reverse,
-    .animate-soft-float {
-      animation: none;
-      transform: none;
-    }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+
+  .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+  }
+
+  .animate-glow-drift,
+  .animate-glow-drift-reverse,
+  .animate-soft-float {
+    animation: none;
+    transform: none;
   }
 }
