@@ -172,11 +172,11 @@ const readDraft = (): DraftLoad => {
   if (!raw) return { recovered: false, state: INITIAL_STATE };
   try {
     const parsed: unknown = JSON.parse(raw);
-    return !isRecord(parsed) ||
-      parsed['version'] !== DRAFT_VERSION ||
-      !isRecord(parsed['state'])
-      ? { recovered: false, state: INITIAL_STATE }
-      : { recovered: true, state: restoreBannerState(parsed['state']) };
+    return isRecord(parsed) &&
+      parsed['version'] === DRAFT_VERSION &&
+      isRecord(parsed['state'])
+      ? { recovered: true, state: restoreBannerState(parsed['state']) }
+      : { recovered: false, state: INITIAL_STATE };
   } catch {
     return { recovered: false, state: INITIAL_STATE };
   }

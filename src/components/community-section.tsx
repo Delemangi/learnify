@@ -8,10 +8,6 @@ const discordInvite = 'https://discord.gg/ArSwaDE4re';
 const discordWidgetApi =
   'https://discord.com/api/guilds/1558165639284129835/widget.json';
 
-type DiscordWidget = {
-  readonly presence_count?: number;
-};
-
 export const CommunitySection = () => {
   const [onlineCount, setOnlineCount] = useState<null | number>(null);
 
@@ -20,6 +16,10 @@ export const CommunitySection = () => {
 
     const loadPresence = async () => {
       try {
+        type DiscordWidget = {
+          readonly presence_count?: number;
+        };
+
         const response = await fetch(discordWidgetApi, {
           signal: controller.signal,
         });
